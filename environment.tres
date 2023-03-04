@@ -1,0 +1,5 @@
+[gd_resource type="Environment" format=3 uid="uid://c1rjljpo6kd0t"]
+
+[resource]
+fog_enabled = true
+volumetric_fog_enabled = true
