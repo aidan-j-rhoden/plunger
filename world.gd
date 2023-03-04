@@ -21,7 +21,8 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 
-	add_player(multiplayer.get_unique_id())
+	if DisplayServer.get_name() != "headless":
+		add_player(multiplayer.get_unique_id())
 
 
 func _on_join_pressed():
