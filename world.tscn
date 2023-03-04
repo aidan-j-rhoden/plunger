@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://buyt3b01h02wi"]
+[gd_scene load_steps=6 format=3 uid="uid://dm7gtcyppp7f"]
 
-[ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://models/maps/map_test.tscn" id="1_6vnut"]
+[ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="1_6vnut"]
 [ext_resource type="Script" path="res://world.gd" id="1_e1bef"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0gi5l"]
@@ -73,7 +73,7 @@ placeholder_text = "127.0.0.1"
 alignment = 1
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn")
+_spawnable_scenes = PackedStringArray("res://player/player.tscn")
 spawn_path = NodePath("../players")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://rfhl7b1p03jt"]
+[gd_scene load_steps=7 format=3 uid="uid://cx4cc26pvcslh"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_nybto"]
-[ext_resource type="Script" path="res://PlayerInput.gd" id="2_81mhc"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_3dqsl"]
+[ext_resource type="Script" path="res://player/PlayerInput.gd" id="2_fm7ly"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ci62d"]
 properties/0/path = NodePath("PlayerInput:direction")
@@ -31,11 +31,11 @@ properties/2/sync = true
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
-script = ExtResource("1_nybto")
+script = ExtResource("1_3dqsl")
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ci62d")
-script = ExtResource("2_81mhc")
+script = ExtResource("2_fm7ly")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

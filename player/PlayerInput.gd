@@ -2,7 +2,6 @@ extends MultiplayerSynchronizer
 
 # Set via RPC to simulate is_action_just_pressed.
 @export var jumping := false
-@export var sprinting := false
 
 # Synchronized property.
 @export var direction := Vector2()
@@ -10,7 +9,6 @@ extends MultiplayerSynchronizer
 @export var y_rot = 0
 
 const CAMERA_ROT_SPEED = 0.5
-
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -21,11 +19,6 @@ func _ready():
 @rpc("call_local")
 func jump():
 	jumping = true
-
-
-@rpc("call_local")
-func sprint(value):
-	sprinting = value
 
 
 func _input(event):
@@ -43,4 +36,3 @@ func _process(_delta):
 	x_rot = 0.0
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
-	sprint.rpc(Input.is_action_pressed("sprint"))
