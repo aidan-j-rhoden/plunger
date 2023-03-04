@@ -39,6 +39,8 @@ func _input(event):
 func _process(_delta):
 	# Get the input direction and handle the movement/deceleration.
 	direction = Input.get_vector("left", "right", "forward", "back")
+	y_rot = 0.0
+	x_rot = 0.0
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
 	sprint.rpc(Input.is_action_pressed("sprint"))
