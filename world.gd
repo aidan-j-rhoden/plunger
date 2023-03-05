@@ -13,6 +13,15 @@ func _unhandled_input(_event):
 		get_tree().quit()
 
 
+func _ready():
+	if d_server():
+		_on_host_pressed()
+
+
+func _process(delta):
+	$DirectionalLight3D.rotation_degrees.x += delta * 2
+
+
 func _on_host_pressed():
 	main_menu.hide()
 
@@ -21,7 +30,7 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 
-	if DisplayServer.get_name() != "headless":
+	if not d_server():
 		add_player(multiplayer.get_unique_id())
 
 
@@ -43,3 +52,7 @@ func add_player(peer_id):
 
 func remove_player(peer_id):
 	get_node("players/" + str(peer_id)).queue_free()
+
+
+func d_server():
+	return DisplayServer.get_name() == "headless" or OS.has_feature("dedicated_server")
