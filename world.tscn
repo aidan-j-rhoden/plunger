@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dm7gtcyppp7f"]
+[gd_scene load_steps=7 format=3 uid="uid://dm7gtcyppp7f"]
 
 [ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="1_6vnut"]
 [ext_resource type="Script" path="res://world.gd" id="1_e1bef"]
+[ext_resource type="PackedScene" uid="uid://dpqa5035qea5" path="res://weapons/plunger/plunger.tscn" id="3_k5ba5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0gi5l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -75,6 +76,18 @@ alignment = 1
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player/player.tscn")
 spawn_path = NodePath("../players")
+
+[node name="plunger" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.521027, 50.6612, 1.8598)
+mass = 0.2
+
+[node name="plunger2" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40587, 52.9126, 0.196003)
+mass = 0.2
+
+[node name="plunger3" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21136, 56.27, -4.66694)
+mass = 0.2
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]

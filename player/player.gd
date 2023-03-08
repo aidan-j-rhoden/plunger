@@ -9,6 +9,9 @@ const CAMERA_ROT_SPEED = 0.5
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 30
 
+@onready var plunger = preload("res://weapons/plunger/plunger.tscn")
+var weapons = 0
+
 func _enter_tree():
 	$PlayerInput.set_multiplayer_authority(str(name).to_int())
 
@@ -48,3 +51,13 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+
+func gain_weapon(type):
+	if type == "plunger":
+		var p = plunger.instantiate()
+		$weapon.add_child(p)
+		p.rotation_degrees.x = 15 * weapons
+		p.picked = true
+
+	weapons += 1

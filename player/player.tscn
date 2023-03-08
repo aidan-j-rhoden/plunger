@@ -50,3 +50,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63081, 4.76837e-07)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_vnsqa")
+
+[node name="weapon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0.779264, 1.43996, -1.13037)

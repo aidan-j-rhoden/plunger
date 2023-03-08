@@ -18,8 +18,8 @@ func _ready():
 		_on_host_pressed()
 
 
-func _process(delta):
-	$DirectionalLight3D.rotation_degrees.x += delta * 2
+#func _process(delta):
+#	$DirectionalLight3D.rotation_degrees.x += delta * 2
 
 
 func _on_host_pressed():
