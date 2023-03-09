@@ -37,7 +37,7 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# Handle Jump.
-	if $PlayerInput.jumping:
+	if $PlayerInput.jumping and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	$PlayerInput.jumping = false
 
