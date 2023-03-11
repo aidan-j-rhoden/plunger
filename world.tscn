@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dm7gtcyppp7f"]
+[gd_scene load_steps=9 format=3 uid="uid://dm7gtcyppp7f"]
 
 [ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="1_6vnut"]
 [ext_resource type="Script" path="res://world.gd" id="1_e1bef"]
 [ext_resource type="PackedScene" uid="uid://dpqa5035qea5" path="res://weapons/plunger/plunger.tscn" id="3_k5ba5"]
+[ext_resource type="PackedScene" uid="uid://dn5h7wy4ux8tm" path="res://weapons/toilet/toilet.tscn" id="4_71pki"]
+[ext_resource type="PackedScene" uid="uid://bqkim1sb15d83" path="res://weapons/bathtub/bathtub.tscn" id="5_73xkf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0gi5l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,7 +27,6 @@ environment = SubResource("Environment_rg5lj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75, -0.433013, 0, 0, 0)
-shadow_enabled = true
 
 [node name="map_test" parent="." instance=ExtResource("1_6vnut")]
 
@@ -88,6 +89,15 @@ mass = 0.2
 [node name="plunger3" parent="." instance=ExtResource("3_k5ba5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21136, 56.27, -4.66694)
 mass = 0.2
+
+[node name="toilet" parent="." instance=ExtResource("4_71pki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79488, -9.53674e-07, -0.119255)
+
+[node name="toilet2" parent="." instance=ExtResource("4_71pki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5481, 0.109627, -0.955812)
+
+[node name="bathtub" parent="." instance=ExtResource("5_73xkf")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.233209, -9.53674e-07, -5.10943)
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
