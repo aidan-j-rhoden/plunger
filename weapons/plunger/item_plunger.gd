@@ -1,7 +1,4 @@
-extends RigidBody3D
-
-var type = "plunger"
-var picked = false
+extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,10 +8,3 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
-
-func _on_area_3d_body_entered(body):
-	if not picked:
-		picked = true
-		body.gain_weapon(type)
-		queue_free()
