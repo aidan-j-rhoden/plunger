@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dn5h7wy4ux8tm"]
+[gd_scene load_steps=25 format=3 uid="uid://dn5h7wy4ux8tm"]
 
 [ext_resource type="PackedScene" uid="uid://2rf35gujyk4w" path="res://models/props/WaterPlane.tscn" id="2_h32eu"]
 [ext_resource type="Script" path="res://weapons/toilet/toilet.gd" id="2_hkv2f"]
@@ -193,6 +193,14 @@ _data = {
 "CubeAction": SubResource("Animation_o0f2w")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_s78hq"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/sync = true
+
 [node name="toilet" type="RigidBody3D"]
 collision_mask = 3
 inertia = Vector3(1, 1, 1)
@@ -237,5 +245,8 @@ shape = SubResource("ConvexPolygonShape3D_ceibx")
 libraries = {
 "": SubResource("AnimationLibrary_c40y3")
 }
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_s78hq")
 
 [connection signal="body_entered" from="Cube/WaterPlane/Area3D" to="." method="_on_area_3d_body_entered"]

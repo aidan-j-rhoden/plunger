@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2nh4vml2mhiq"]
+[gd_scene load_steps=6 format=3 uid="uid://d2nh4vml2mhiq"]
 
 [ext_resource type="Script" path="res://weapons/plunger/item_plunger.gd" id="1_v6mcn"]
 
@@ -70,14 +70,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_pnisa")
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_l18fd"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/sync = true
-
 [node name="plunger" type="Node3D"]
 script = ExtResource("1_v6mcn")
 
@@ -85,6 +77,3 @@ script = ExtResource("1_v6mcn")
 transform = Transform3D(0.113997, 0, 0, 0, 0.113997, 0, 0, 0, 0.113997, 0, 0, 0)
 mesh = SubResource("ArrayMesh_kjdi2")
 skeleton = NodePath("")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_l18fd")
