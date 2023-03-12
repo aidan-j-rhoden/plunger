@@ -27,8 +27,8 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		y_rot = -event.relative.x * get_physics_process_delta_time() * CAMERA_ROT_SPEED
 		x_rot = -event.relative.y * get_physics_process_delta_time() * CAMERA_ROT_SPEED
-		$"../".rotate_y(y_rot)
-		$"../Camera3D".rotate_x(x_rot)
+#		$"../".rotate_y(y_rot)
+#		$"../Camera3D".rotate_x(x_rot)
 
 
 func _process(_delta):

@@ -22,6 +22,7 @@ func _enter_tree():
 func _ready():
 	if multiplayer.get_unique_id() == $PlayerInput.get_multiplayer_authority():
 		camera.current = true
+		$HUD.visible = true
 
 
 #func _input(event):
@@ -32,8 +33,8 @@ func _ready():
 
 
 func _physics_process(delta):
-#	rotate_y($PlayerInput.y_rot)
-#	camera.rotate_x($PlayerInput.x_rot)
+	rotate_y($PlayerInput.y_rot)
+	camera.rotate_x($PlayerInput.x_rot)
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -89.9, 89.9)
 	# Add the gravity.
 	if not is_on_floor():
