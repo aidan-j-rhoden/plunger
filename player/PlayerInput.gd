@@ -2,6 +2,7 @@ extends MultiplayerSynchronizer
 
 # Set via RPC to simulate is_action_just_pressed.
 @export var jumping := false
+@export var crouching := false
 
 # Synchronized property.
 @export var direction := Vector2()
@@ -21,14 +22,17 @@ func jump():
 	jumping = true
 
 
+@rpc("call_local")
+func crouch():
+	crouching = not crouching
+
+
 func _input(event):
 	if not is_multiplayer_authority():
 		return
 	if event is InputEventMouseMotion:
 		y_rot = -event.relative.x * get_physics_process_delta_time() * CAMERA_ROT_SPEED
 		x_rot = -event.relative.y * get_physics_process_delta_time() * CAMERA_ROT_SPEED
-#		$"../".rotate_y(y_rot)
-#		$"../Camera3D".rotate_x(x_rot)
 
 
 func _process(_delta):
@@ -38,3 +42,5 @@ func _process(_delta):
 	x_rot = 0.0
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
+	if Input.is_action_just_pressed("crouch"):
+		crouch.rpc()
