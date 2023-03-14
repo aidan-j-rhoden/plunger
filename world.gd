@@ -6,15 +6,36 @@ extends Node
 const Player = preload("res://player/player.tscn")
 
 const PORT = 9999
+var upnp
+var make_upnp = false
 var enet_peer = ENetMultiplayerPeer.new()
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
+		if make_upnp:
+			assert(upnp.delete_port_mapping(PORT, "UDP") == 0, "Curses!  Dat network thingie done bamboozled me!")
+			assert(upnp.delete_port_mapping(PORT, "TCP") == 0, "Oh no!")
 
 
 func _ready():
-	if d_server():
+	if make_upnp:
+		upnp = UPNP.new()
+		var discover_result = upnp.discover()
+
+		if discover_result == UPNP.UPNP_RESULT_SUCCESS:
+			if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+				var map_result_udp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP", 0)
+				var map_result_tcp = upnp.add_port_mapping(PORT, PORT, "godot_tcp", "TCP", 0)
+				if not map_result_udp == UPNP.UPNP_RESULT_SUCCESS:
+					upnp.add_port_mapping(PORT, PORT, "", "UDP")
+				if not map_result_tcp == UPNP.UPNP_RESULT_SUCCESS:
+					upnp.add_port_mapping(PORT, PORT, "", "TCP")
+
+		var external_ip = upnp.query_external_address()
+		print(external_ip)
+
+	if dedicated_server():
 		_on_host_pressed()
 
 
@@ -30,7 +51,7 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 
-	if not d_server():
+	if not dedicated_server():
 		add_player(multiplayer.get_unique_id())
 
 
@@ -54,5 +75,5 @@ func remove_player(peer_id):
 	get_node("players/" + str(peer_id)).queue_free()
 
 
-func d_server():
+func dedicated_server():
 	return DisplayServer.get_name() == "headless" or OS.has_feature("dedicated_server")
