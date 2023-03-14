@@ -202,7 +202,6 @@ properties/1/spawn = true
 properties/1/sync = true
 
 [node name="toilet" type="RigidBody3D"]
-collision_mask = 3
 inertia = Vector3(1, 1, 1)
 script = ExtResource("2_hkv2f")
 
