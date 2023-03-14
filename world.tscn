@@ -78,25 +78,27 @@ alignment = 1
 _spawnable_scenes = PackedStringArray("res://player/player.tscn")
 spawn_path = NodePath("../players")
 
-[node name="plunger" parent="." instance=ExtResource("3_k5ba5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.521027, 50.6612, 1.8598)
-mass = 0.2
+[node name="weapons" type="Node3D" parent="."]
 
-[node name="plunger2" parent="." instance=ExtResource("3_k5ba5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40587, 52.9126, 0.196003)
-mass = 0.2
-
-[node name="plunger3" parent="." instance=ExtResource("3_k5ba5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21136, 56.27, -4.66694)
-mass = 0.2
-
-[node name="toilet" parent="." instance=ExtResource("4_71pki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79488, -9.53674e-07, -0.119255)
-
-[node name="toilet2" parent="." instance=ExtResource("4_71pki")]
+[node name="toilet2" parent="weapons" instance=ExtResource("4_71pki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5481, 0.109627, -0.955812)
 
-[node name="bathtub" parent="." instance=ExtResource("5_73xkf")]
+[node name="toilet" parent="weapons" instance=ExtResource("4_71pki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79488, -9.53674e-07, -0.119255)
+
+[node name="plunger3" parent="weapons" instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21136, 12.9487, -4.66694)
+mass = 0.2
+
+[node name="plunger2" parent="weapons" instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40587, 9.59132, 0.196003)
+mass = 0.2
+
+[node name="plunger" parent="weapons" instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.521027, 7.33992, 1.8598)
+mass = 0.2
+
+[node name="bathtub" parent="weapons" instance=ExtResource("5_73xkf")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.233209, -9.53674e-07, -5.10943)
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
