@@ -3,6 +3,7 @@ extends MultiplayerSynchronizer
 # Set via RPC to simulate is_action_just_pressed.
 @export var jumping := false
 @export var crouching := false
+@export var firing := false
 
 # Synchronized property.
 @export var direction := Vector2()
@@ -27,6 +28,11 @@ func crouch():
 	crouching = not crouching
 
 
+@rpc("call_local")
+func fire():
+	firing = true
+
+
 func _input(event):
 	if not is_multiplayer_authority():
 		return
@@ -44,3 +50,5 @@ func _process(_delta):
 		jump.rpc()
 	if Input.is_action_just_pressed("crouch"):
 		crouch.rpc()
+	if Input.is_action_just_pressed("shoot"):
+		fire.rpc()

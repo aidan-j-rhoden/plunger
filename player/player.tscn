@@ -31,6 +31,45 @@ bg_color = Color(0.796078, 0, 0.490196, 1)
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 
+[sub_resource type="Animation" id="Animation_gpo70"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:shape:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.631, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_67fq2"]
 resource_name = "crouch"
 length = 0.3
@@ -71,45 +110,6 @@ tracks/2/keys = {
 "values": [Vector3(0, 1.631, 0), Vector3(0, 1.23439, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_gpo70"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:height")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:shape:height")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Camera3D:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 1.631, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ocxmq"]
 _data = {
 "RESET": SubResource("Animation_gpo70"),
@@ -118,6 +118,7 @@ _data = {
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_3dqsl")
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
@@ -141,17 +142,10 @@ replication_config = SubResource("SceneReplicationConfig_vnsqa")
 [node name="weapon" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0.779264, 1.43996, -1.13037)
 
-[node name="HUD" type="Control" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="Health" type="ProgressBar" parent="HUD"]
-layout_mode = 0
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 336.0
@@ -159,6 +153,70 @@ offset_bottom = 59.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_815nm")
 value = 50.0
 show_percentage = false
+
+[node name="crosshair" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="ColorRect" parent="HUD/crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -6.5
+offset_right = 1.0
+offset_bottom = -1.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bottom" type="ColorRect" parent="HUD/crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = 0.5
+offset_right = 1.0
+offset_bottom = 5.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="left" type="ColorRect" parent="HUD/crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.5
+offset_top = -1.0
+offset_right = -1.5
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="right" type="ColorRect" parent="HUD/crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 0.5
+offset_top = -1.0
+offset_right = 5.5
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
