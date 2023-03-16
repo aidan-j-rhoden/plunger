@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3qdnog5j4scc"]
+
+[ext_resource type="PackedScene" uid="uid://cft71cppc6x3g" path="res://models/weapons/hairspray.glb" id="1_24y24"]
+
+[node name="hairspray" instance=ExtResource("1_24y24")]
+
+[node name="Cylinder001" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.23532e-06, 0.139507, 2.49345e-05)
+
+[node name="Cylinder002" parent="." index="2"]
+transform = Transform3D(0.743638, 0, 0, 0, 1, 0, 0, 0, 0.743638, -1.07733e-05, 0.152815, 6.69945e-05)
