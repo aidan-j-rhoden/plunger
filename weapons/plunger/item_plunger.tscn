@@ -1,6 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2nh4vml2mhiq"]
-
-[ext_resource type="Script" path="res://weapons/plunger/item_plunger.gd" id="1_v6mcn"]
+[gd_scene load_steps=5 format=3 uid="uid://d2nh4vml2mhiq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ot1is"]
 resource_name = "cup"
@@ -71,7 +69,6 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_pnisa")
 
 [node name="plunger" type="Node3D"]
-script = ExtResource("1_v6mcn")
 
 [node name="Plunger" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.113997, 0, 0, 0, 0.113997, 0, 0, 0, 0.113997, 0, 0, 0)
