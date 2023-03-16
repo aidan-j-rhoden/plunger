@@ -18,6 +18,8 @@ background_mode = 2
 sky = SubResource("Sky_f2rxq")
 tonemap_mode = 2
 glow_enabled = true
+fog_light_color = Color(0.517647, 0.552941, 0.607843, 1)
+volumetric_fog_density = 0.0
 
 [node name="World" type="Node"]
 script = ExtResource("1_e1bef")
