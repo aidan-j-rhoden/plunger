@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dm7gtcyppp7f"]
+[gd_scene load_steps=10 format=3 uid="uid://dm7gtcyppp7f"]
 
 [ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="1_6vnut"]
 [ext_resource type="Script" path="res://world.gd" id="1_e1bef"]
-[ext_resource type="PackedScene" uid="uid://dpqa5035qea5" path="res://weapons/plunger/plunger.tscn" id="3_k5ba5"]
+[ext_resource type="PackedScene" uid="uid://cyw5kejlrn5ym" path="res://weapons/plunger/plunger.tscn" id="3_k5ba5"]
 [ext_resource type="PackedScene" uid="uid://dn5h7wy4ux8tm" path="res://weapons/toilet/toilet.tscn" id="4_71pki"]
 [ext_resource type="PackedScene" uid="uid://bqkim1sb15d83" path="res://weapons/bathtub/bathtub.tscn" id="5_73xkf"]
+[ext_resource type="PackedScene" uid="uid://ckf6i1wjbni8m" path="res://weapons/hairspray/hairspray.tscn" id="6_om4tj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0gi5l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -34,48 +35,6 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75
 
 [node name="players" type="Node" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MainMenu" type="PanelContainer" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 312.0
-offset_top = 202.0
-offset_right = -312.0
-offset_bottom = -202.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu"]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Main Menu"
-horizontal_alignment = 1
-
-[node name="Host" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Host"
-
-[node name="Join" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Join"
-
-[node name="address" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "127.0.0.1"
-alignment = 1
-
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player/player.tscn")
 spawn_path = NodePath("../players")
@@ -88,20 +47,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5481, 0.109627, -0.955812)
 [node name="toilet" parent="weapons" instance=ExtResource("4_71pki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79488, -9.53674e-07, -0.119255)
 
-[node name="plunger3" parent="weapons" instance=ExtResource("3_k5ba5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21136, 12.9487, -4.66694)
-mass = 0.2
-
-[node name="plunger2" parent="weapons" instance=ExtResource("3_k5ba5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40587, 9.59132, 0.196003)
-mass = 0.2
-
-[node name="plunger" parent="weapons" instance=ExtResource("3_k5ba5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.521027, 7.33992, 1.8598)
-mass = 0.2
-
 [node name="bathtub" parent="weapons" instance=ExtResource("5_73xkf")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.233209, -9.53674e-07, -5.10943)
 
-[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[node name="hairspray" parent="." instance=ExtResource("6_om4tj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31415, 3.57353, -0.333824)
+
+[node name="hairspray2" parent="." instance=ExtResource("6_om4tj")]
+transform = Transform3D(0.80912, 0.587644, 0, -0.587644, 0.80912, 0, 0, 0, 1, 2.96892, 3.85473, -1.30462)
+
+[node name="plunger" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.02054, 17.3069, 0.986854)
+
+[node name="plunger2" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8357, 9.97159, 12.6482)
+
+[node name="plunger3" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31203, 7.98131, 6.90299)
+
+[node name="plunger4" parent="." instance=ExtResource("3_k5ba5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2692, 12.3417, 5.90595)

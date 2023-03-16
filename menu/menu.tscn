@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3 uid="uid://g7jnq4sqs63k"]
+
+[ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gwxu1")
+
+[node name="MainMenu" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 312.0
+offset_top = 202.0
+offset_right = -312.0
+offset_bottom = -202.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+
+[node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="address" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "127.0.0.1"
+alignment = 1
+
+[node name="ReadyMenu" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 312.0
+offset_top = 202.0
+offset_right = -312.0
+offset_bottom = -202.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ReadyMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ReadyMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="players" type="Label" parent="ReadyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "plaer
+pawd
+asd
+qweta
+q4ywa"
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="ReadyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start!"
+
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="ReadyMenu/MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
