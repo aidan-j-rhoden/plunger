@@ -6,6 +6,7 @@ extends Control
 
 const Player = preload("res://player/player.tscn")
 const test_level = preload("res://world.tscn")
+const levels = [test_level]
 
 const PORT = 9999
 var upnp
@@ -13,6 +14,8 @@ var make_upnp = false
 var enet_peer = ENetMultiplayerPeer.new()
 
 var player_list = []
+var ready_list = []
+var start_game = false
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
@@ -27,7 +30,12 @@ func _ready():
 	ready_menu.hide()
 
 	if dedicated_server():
-		_on_host_pressed()
+		call_deferred(_on_host_pressed())
+
+
+func _process(_delta):
+	if start_game:
+		get_tree().paused = false
 
 
 func _on_host_pressed():
@@ -47,7 +55,7 @@ func _on_host_pressed():
 					upnp.add_port_mapping(PORT, PORT, "", "TCP")
 
 		var external_ip = upnp.query_external_address()
-		print(external_ip)
+		print(str(external_ip) + ":" + str(PORT))
 
 	enet_peer.create_server(PORT)
 	multiplayer.multiplayer_peer = enet_peer
@@ -55,8 +63,7 @@ func _on_host_pressed():
 	multiplayer.peer_disconnected.connect(remove_player)
 
 	if not dedicated_server():
-		player_list.append(multiplayer.get_unique_id())
-		update_player_list()
+		add_player(multiplayer.get_unique_id())
 
 	ready_menu.show()
 
@@ -71,24 +78,49 @@ func _on_join_pressed():
 	multiplayer.multiplayer_peer = enet_peer
 
 	ready_menu.show()
+	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
+
+
+func _on_start_pressed():
+	for player in player_list:
+		pre_start_game.rpc_id(player, 0)
+
+
+@rpc("call_local")
+func pre_start_game(level):
+	var game_level = levels[level].instantiate()
+	get_tree().paused = true
+	add_child(game_level)
+	main_menu.hide()
+	ready_menu.hide()
+	if not multiplayer.is_server():
+		player_ready.rpc_id(1)
+
+
+@rpc("any_peer")
+func player_ready():
+	ready_list.append(multiplayer.get_remote_sender_id())
+
+	ready_list.sort()
+	player_list.sort()
+	if ready_list == player_list:
+		start_game = true
 
 
 func add_player(peer_id):
+	print("Player " + str(peer_id) + " joined!")
 	player_list.append(peer_id)
 	update_player_list()
 
 
 func remove_player(peer_id):
+	print("Player " + str(peer_id) + " joined!")
 	player_list.erase(peer_id)
 	update_player_list()
 
 
 func dedicated_server():
 	return DisplayServer.get_name() == "headless" or OS.has_feature("dedicated_server")
-
-
-func _on_start_pressed():
-	pass # Replace with function body.
 
 
 func update_player_list():
