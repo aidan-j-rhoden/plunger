@@ -88,6 +88,7 @@ func _on_start_pressed():
 
 @rpc("call_local")
 func pre_start_game(level):
+	print("Server told me to prestart the game!")
 	var game_level = levels[level].instantiate()
 	get_tree().paused = true
 	add_child(game_level)
@@ -99,6 +100,7 @@ func pre_start_game(level):
 
 @rpc("any_peer")
 func player_ready():
+	print(str(multiplayer.get_remote_sender_id()) + " is ready!")
 	ready_list.append(multiplayer.get_remote_sender_id())
 
 	ready_list.sort()
