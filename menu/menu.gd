@@ -91,15 +91,8 @@ func _on_start_pressed():
 	pass # Replace with function body.
 
 
-@rpc("call_local")
-func update_player_list(list := []):
-	if list != []:
-		$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
-		if multiplayer.is_server():
-			for player in player_list:
-				update_player_list.rpc_id(player)
-	else:
-		$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(list)
+func update_player_list():
+	$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
 
 
 func to_text_list(list):
