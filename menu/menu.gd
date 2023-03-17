@@ -15,7 +15,6 @@ var enet_peer = ENetMultiplayerPeer.new()
 
 var player_list = []
 var ready_list = []
-var start_game = false
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
@@ -34,8 +33,13 @@ func _ready():
 
 
 func _process(_delta):
-	if start_game:
-		get_tree().paused = false
+##	print($ReadyMenu/MarginContainer/VBoxContainer/players.text.split("\n", false))
+#	if not multiplayer.is_server():
+#		for player in $ReadyMenu/MarginContainer/VBoxContainer/players.text.split("\n", false):
+#			player_list.append(int(player))
+
+	if not multiplayer.is_server():
+		print(player_list)
 
 
 func _on_host_pressed():
@@ -84,15 +88,11 @@ func _on_join_pressed():
 func _on_start_pressed():
 	for player in player_list:
 		pre_start_game.rpc_id(player, 0)
-	get_tree().paused = false
 
 
 @rpc("call_local")
 func pre_start_game(level):
-	print("Server told me to prestart the game!")
-	var game_level = levels[level].instantiate()
-	get_tree().paused = true
-	add_child(game_level)
+	print("Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
 
 	main_menu.hide()
 	ready_menu.hide()
@@ -100,13 +100,13 @@ func pre_start_game(level):
 	get_tree().paused = true
 	var game_level = levels[level].instantiate()
 	add_child(game_level)
+
 	game_level.add_players(player_list)
 
-	if not multiplayer.is_server():
-		player_ready.rpc_id(1)
+	player_ready.rpc_id(1)
 
 
-@rpc("any_peer")
+@rpc("call_local", "any_peer")
 func player_ready():
 	print(str(multiplayer.get_remote_sender_id()) + " is ready!")
 	ready_list.append(multiplayer.get_remote_sender_id())
@@ -114,7 +114,13 @@ func player_ready():
 	ready_list.sort()
 	player_list.sort()
 	if ready_list == player_list:
-		start_game = true
+		unpause_and_start.rpc()
+
+
+@rpc("call_local")
+func unpause_and_start():
+	print("Server told " + str(multiplayer.get_unique_id()) + " to start!")
+	get_tree().paused = false
 
 
 func add_player(peer_id):

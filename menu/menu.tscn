@@ -4,8 +4,11 @@
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d6mq2"]
 properties/0/path = NodePath("ReadyMenu/MarginContainer/VBoxContainer/players:text")
-properties/0/spawn = true
-properties/0/sync = true
+properties/0/spawn = false
+properties/0/sync = false
+properties/1/path = NodePath(".:player_list")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="menu" type="Control"]
 layout_mode = 3
