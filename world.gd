@@ -16,10 +16,11 @@ func _ready():
 #	$DirectionalLight3D.rotation_degrees.x += delta * 2
 
 
-func add_player(peer_id):
-	var player = Player.instantiate()
-	player.name = str(peer_id)
-	get_node("players").add_child(player)
+func add_players(players):
+	for p_id in players:
+		var player = Player.instantiate()
+		player.name = str(p_id)
+		get_node("players").add_child(player)
 
 
 func remove_player(peer_id):
