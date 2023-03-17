@@ -84,15 +84,19 @@ func _on_join_pressed():
 func _on_start_pressed():
 	for player in player_list:
 		pre_start_game.rpc_id(player, 0)
+	get_tree().paused = false
 
 
 @rpc("call_local")
 func pre_start_game(level):
-	var game_level = levels[level].instantiate()
-	get_tree().paused = true
-	add_child(game_level)
 	main_menu.hide()
 	ready_menu.hide()
+
+	get_tree().paused = true
+	var game_level = levels[level].instantiate()
+	add_child(game_level)
+	game_level.add_players(player_list)
+
 	if not multiplayer.is_server():
 		player_ready.rpc_id(1)
 
