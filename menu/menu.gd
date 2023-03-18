@@ -5,8 +5,7 @@ extends Control
 @onready var ready_menu = $ReadyMenu
 
 const Player = preload("res://player/player.tscn")
-const test_level = preload("res://world.tscn")
-const levels = [test_level]
+const levels = [preload("res://world.tscn")]
 
 const PORT = 9999
 var upnp
@@ -32,14 +31,9 @@ func _ready():
 		call_deferred(_on_host_pressed())
 
 
-func _process(_delta):
-##	print($ReadyMenu/MarginContainer/VBoxContainer/players.text.split("\n", false))
+#func _process(_delta):
 #	if not multiplayer.is_server():
-#		for player in $ReadyMenu/MarginContainer/VBoxContainer/players.text.split("\n", false):
-#			player_list.append(int(player))
-
-	if not multiplayer.is_server():
-		print(player_list)
+#		print(player_list)
 
 
 func _on_host_pressed():
@@ -83,15 +77,19 @@ func _on_join_pressed():
 
 	ready_menu.show()
 	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
+	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = to_text_list(player_list)
 
 
 func _on_start_pressed():
+	print("    (pressed start)")
 	for player in player_list:
+		print("telling " + str(player) + " to pre_start...")
 		pre_start_game.rpc_id(player, 0)
 
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func pre_start_game(level):
+	await get_tree().create_timer(1).timeout
 	print("Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
 
 	main_menu.hide()
@@ -106,41 +104,49 @@ func pre_start_game(level):
 	player_ready.rpc_id(1)
 
 
-@rpc("call_local", "any_peer")
+@rpc("call_local", "any_peer", "reliable")
 func player_ready():
-	print(str(multiplayer.get_remote_sender_id()) + " is ready!")
-	ready_list.append(multiplayer.get_remote_sender_id())
+	if multiplayer.is_server():
+		print(str(multiplayer.get_remote_sender_id()) + " is ready!")
+		ready_list.append(multiplayer.get_remote_sender_id())
 
-	ready_list.sort()
-	player_list.sort()
-	if ready_list == player_list:
-		unpause_and_start.rpc()
+		ready_list.sort()
+		player_list.sort()
+		if ready_list == player_list:
+			unpause_and_start.rpc()
 
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func unpause_and_start():
-	print("Server told " + str(multiplayer.get_unique_id()) + " to start!")
+	print("Server told " + str(multiplayer.get_unique_id()) + " to unpause!")
 	get_tree().paused = false
 
 
 func add_player(peer_id):
 	print("Player " + str(peer_id) + " joined!")
 	player_list.append(peer_id)
-	update_player_list()
+	for player in player_list:
+		update_player_list.rpc_id(player, player_list)
 
 
 func remove_player(peer_id):
-	print("Player " + str(peer_id) + " joined!")
+	print("Player " + str(peer_id) + " left!")
 	player_list.erase(peer_id)
-	update_player_list()
+	for player in player_list:
+		update_player_list.rpc_id(player, player_list)
 
 
 func dedicated_server():
 	return DisplayServer.get_name() == "headless" or OS.has_feature("dedicated_server")
 
 
-func update_player_list():
-	$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
+@rpc("call_local", "reliable")
+func update_player_list(list = []):
+	if list == []:
+		$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
+	else:
+		player_list = list
+		$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
 
 
 func to_text_list(list):
