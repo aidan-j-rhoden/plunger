@@ -7,7 +7,6 @@ const Player = preload("res://player/player.tscn")
 
 const PORT = 9999
 
-
 func _ready():
 	pass
 

@@ -5,13 +5,13 @@
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ci62d"]
 properties/0/path = NodePath("PlayerInput:direction")
-properties/0/spawn = true
+properties/0/spawn = false
 properties/0/sync = true
 properties/1/path = NodePath("PlayerInput:x_rot")
-properties/1/spawn = true
+properties/1/spawn = false
 properties/1/sync = true
 properties/2/path = NodePath("PlayerInput:y_rot")
-properties/2/spawn = true
+properties/2/spawn = false
 properties/2/sync = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xj0bj"]
