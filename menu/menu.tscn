@@ -1,11 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://g7jnq4sqs63k"]
+[gd_scene load_steps=2 format=3 uid="uid://g7jnq4sqs63k"]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d6mq2"]
-properties/0/path = NodePath(".:player_list")
-properties/0/spawn = true
-properties/0/sync = true
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -93,9 +88,6 @@ horizontal_alignment = 1
 [node name="Start" type="Button" parent="ReadyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Start!"
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_d6mq2")
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]

@@ -17,15 +17,22 @@ var health: float = MAX_HEALTH
 
 var crouched = false
 
-func _enter_tree():
-	$PlayerInput.set_multiplayer_authority(str(name).to_int())
+@export var player := 1 :
+	set(id):
+		player = id
+		# Give authority over the player input to the appropriate peer.
+		$PlayerInput.set_multiplayer_authority(id)
+
+#func _enter_tree():
+#	$PlayerInput.set_multiplayer_authority(str(name).to_int())
 
 
 func _ready():
-	if multiplayer.get_unique_id() == $PlayerInput.get_multiplayer_authority():
+	if player == multiplayer.get_unique_id():
 		camera.current = true
 		$HUD.visible = true
 		$HUD/Health.value = health
+	set_physics_process(multiplayer.is_server())
 
 
 func _physics_process(delta):

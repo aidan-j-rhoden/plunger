@@ -14,10 +14,6 @@ properties/2/path = NodePath("PlayerInput:y_rot")
 properties/2/spawn = false
 properties/2/sync = true
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xj0bj"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_2pdf3"]
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vnsqa"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
@@ -25,6 +21,13 @@ properties/0/sync = true
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
+properties/2/path = NodePath(".:player")
+properties/2/spawn = true
+properties/2/sync = false
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xj0bj"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2pdf3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_815nm"]
 bg_color = Color(0.796078, 0, 0.490196, 1)
@@ -124,6 +127,9 @@ script = ExtResource("1_3dqsl")
 replication_config = SubResource("SceneReplicationConfig_ci62d")
 script = ExtResource("2_fm7ly")
 
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_vnsqa")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_xj0bj")
@@ -134,9 +140,6 @@ mesh = SubResource("CapsuleMesh_2pdf3")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.631, 0)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_vnsqa")
 
 [node name="weapon" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0.779264, 1.43996, -1.13037)
