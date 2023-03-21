@@ -21,9 +21,6 @@ properties/0/sync = true
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(".:player")
-properties/2/spawn = true
-properties/2/sync = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xj0bj"]
 
