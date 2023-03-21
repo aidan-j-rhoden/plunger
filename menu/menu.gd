@@ -99,7 +99,8 @@ func pre_start_game(level):
 	var game_level = levels[level].instantiate()
 	add_child(game_level)
 
-	game_level.add_players(player_list)
+	if multiplayer.is_server():
+		game_level.add_players(player_list)
 
 	player_ready.rpc_id(1)
 
