@@ -50,9 +50,11 @@ func _physics_process(delta):
 
 	if $PlayerInput.crouching and is_on_floor() and not crouched:
 		crouched = true
+		$PlayerInput.crouching = false
 		$AnimationPlayer.play("crouch")
-	elif not $PlayerInput.crouching and crouched:
+	elif $PlayerInput.crouching and crouched:
 		crouched = false
+		$PlayerInput.crouching = false
 		$AnimationPlayer.play_backwards("crouch")
 
 	# Get the input direction and handle the movement/deceleration.

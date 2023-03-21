@@ -26,7 +26,7 @@ func jump():
 
 @rpc("call_local")
 func crouch():
-	crouching = not crouching
+	crouching = true
 
 
 @rpc("call_local")
