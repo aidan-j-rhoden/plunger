@@ -31,11 +31,6 @@ func _ready():
 		call_deferred(_on_host_pressed())
 
 
-#func _process(_delta):
-#	if not multiplayer.is_server():
-#		print(player_list)
-
-
 func _on_host_pressed():
 	main_menu.hide()
 
