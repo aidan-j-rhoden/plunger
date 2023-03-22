@@ -3,6 +3,7 @@ extends Control
 @onready var main_menu = $MainMenu
 @onready var address = $MainMenu/MarginContainer/VBoxContainer/address
 @onready var ready_menu = $ReadyMenu
+@onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
 
 const Player = preload("res://player/player.tscn")
 const levels = [preload("res://world.tscn")]
@@ -85,6 +86,7 @@ func _on_start_pressed():
 @rpc("call_local", "reliable")
 func pre_start_game(level):
 	await get_tree().create_timer(1).timeout
+	Globals.game_playing = true
 	print("Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
 
 	main_menu.hide()

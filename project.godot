@@ -15,6 +15,10 @@ run/main_scene="res://menu/menu.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://plunger.png"
 
+[autoload]
+
+Globals="*res://globals.gd"
+
 [input]
 
 forward={

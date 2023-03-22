@@ -47,6 +47,16 @@ text = "Host"
 layout_mode = 2
 text = "Join"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="username" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+placeholder_text = "username"
+alignment = 1
+expand_to_text_length = true
+
 [node name="address" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "127.0.0.1"
