@@ -17,7 +17,7 @@ config/icon="res://plunger.png"
 
 [autoload]
 
-Globals="*res://globals.gd"
+Globals="*res://globals.tscn"
 
 [input]
 

@@ -22,6 +22,7 @@ func _enter_tree():
 
 
 func _ready():
+	$player_name.text = Globals.player_names[multiplayer.get_unique_id()]
 	if str(name).to_int() == multiplayer.get_unique_id():
 		camera.current = true
 		$HUD.visible = true

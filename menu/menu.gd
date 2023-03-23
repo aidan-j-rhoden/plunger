@@ -4,6 +4,7 @@ extends Control
 @onready var address = $MainMenu/MarginContainer/VBoxContainer/address
 @onready var ready_menu = $ReadyMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
+var silly_names = ["Silly Man Sam", "ima doofus", "Dan Thee Man", "Billy Bob Joe", "Princess Petuna", "a poopy diaper"]
 
 const Player = preload("res://player/player.tscn")
 const levels = [preload("res://world.tscn")]
@@ -58,7 +59,13 @@ func _on_host_pressed():
 
 	if not dedicated_server():
 		add_player(multiplayer.get_unique_id())
+		if username.text == "":
+			var new_name = silly_names[randi() % silly_names.size()]
+			Globals.player_names[multiplayer.get_unique_id()] = new_name
+		else:
+			Globals.player_names[multiplayer.get_unique_id()] = username.text
 
+	print(Globals.player_names)
 	ready_menu.show()
 
 
@@ -74,6 +81,21 @@ func _on_join_pressed():
 	ready_menu.show()
 	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
 	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = to_text_list(player_list)
+	multiplayer.connected_to_server.connect(give_name)
+#	give_name.rpc_id(1, username.text)
+
+
+func give_name():
+	heres_my_dope_name.rpc_id(1, username.text)
+
+
+@rpc("reliable", "any_peer")
+func heres_my_dope_name(dope_name: String):
+	if dope_name == "":
+		var new_name = silly_names[randi() % silly_names.size()]
+		Globals.player_names[multiplayer.get_remote_sender_id()] = new_name
+	else:
+		Globals.player_names[multiplayer.get_remote_sender_id()] = dope_name
 
 
 func _on_start_pressed():

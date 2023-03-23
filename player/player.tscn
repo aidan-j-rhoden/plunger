@@ -221,3 +221,9 @@ grow_vertical = 2
 libraries = {
 "": SubResource("AnimationLibrary_ocxmq")
 }
+
+[node name="player_name" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.21193, 0)
+billboard = 2
+double_sided = false
+text = "My Goofey Name"
