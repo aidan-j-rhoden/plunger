@@ -4,7 +4,13 @@ extends Control
 @onready var address = $MainMenu/MarginContainer/VBoxContainer/address
 @onready var ready_menu = $ReadyMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
-var silly_names = ["Silly Man Sam", "ima doofus", "Dan Thee Man", "Billy Bob Joe", "Princess Petuna", "a poopy diaper"]
+var silly_names = [
+		"an anonymous jerk", "Sara Cobbler", "Silly Man Sam",
+		"ima doofus", "Dan Thee Man", "Billy Bob Joe",
+		"Princess Petunia", "a poopy diaper", "Poker Face Pete",
+		"Deadeye Dan", "Doughboi", "Rachel",
+		"The Grim Reaper of Wheat", "Kahmunrah, who is BACK!\nFROM THE DEAD!"
+]
 
 const Player = preload("res://player/player.tscn")
 const levels = [preload("res://world.tscn")]
