@@ -205,22 +205,6 @@ shadow_mesh = SubResource("ArrayMesh_guywe")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ew8sa"]
 points = PackedVector3Array(-0.00431615, -0.769224, -0.00450516, 0.894568, -0.668206, -0.805433, 0.790215, -0.56386, 0.000272989, -0.799023, -0.56386, 0.000272989, -0.9032, -0.668206, -0.805433, -0.00431615, -0.668206, -0.924288, 0.894568, 1.12956, -0.805433, -0.00431615, -0.546241, -2.0336, 0.776664, -0.550352, -1.77638, 0.790215, 1.02522, 0.000272989, -0.799023, 1.02522, 0.000272989, -0.785473, -0.550352, -1.77638, -0.9032, 1.12956, -0.805433, -0.00431615, 1.23078, -0.00450516, 0.776664, 1.01171, -1.77638, -0.00431615, 1.0076, -2.0336, -0.785473, 1.01171, -1.77638)
 
-[sub_resource type="Animation" id="Animation_2cdv3"]
-resource_name = "lid_open"
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cube001:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.8, 0.95, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(1.62316, 0, 0), Vector3(1.58825, 0, 0), Vector3(1.62363, 0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_thxte"]
 length = 0.001
 tracks/0/type = "value"
@@ -247,10 +231,26 @@ tracks/0/path = NodePath("Cube001:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.35, 0.6, 0.65, 0.75, 0.8, 0.9, 1.5, 1.7, 1.75, 1.85, 1.9, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.35, 0.6, 0.65, 0.75, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(1.62363, 0, 0), Vector3(0.736058, 0, 0), Vector3(0, 0, 0), Vector3(0.0872665, 0, 0), Vector3(0, 0, 0), Vector3(0.0349066, 0, 0), Vector3(0, 0, 0), Vector3(0.736058, 0, 0), Vector3(0, 0, 0), Vector3(0.0872665, 0, 0), Vector3(0, 0, 0), Vector3(0.0349066, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(1.62363, 0, 0), Vector3(0.736058, 0, 0), Vector3(0, 0, 0), Vector3(0.0872665, 0, 0), Vector3(0, 0, 0), Vector3(0.0349066, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2cdv3"]
+resource_name = "lid_open"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube001:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 0.95, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.62316, 0, 0), Vector3(1.58825, 0, 0), Vector3(1.62363, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yv1vq"]
@@ -286,6 +286,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_pmd0a")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.402509, 0.0372819)
 amount = 10
 randomness = 1.0
+local_coords = true
 mesh = SubResource("CapsuleMesh_qlqg3")
 emission_shape = 6
 emission_ring_axis = Vector3(0, 1, 0)
