@@ -88,11 +88,6 @@ theme_override_constants/separation = 15
 
 [node name="players" type="Label" parent="ReadyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "plaer
-pawd
-asd
-qweta
-q4ywa"
 horizontal_alignment = 1
 
 [node name="Start" type="Button" parent="ReadyMenu/MarginContainer/VBoxContainer"]

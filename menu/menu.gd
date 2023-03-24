@@ -9,7 +9,7 @@ var silly_names = [
 		"ima doofus", "Dan Thee Man", "Billy Bob Joe",
 		"Princess Petunia", "a poopy diaper", "Poker Face Pete",
 		"Deadeye Dan", "Doughboi", "Rachel",
-		"The Grim Reaper of Wheat", "Kahmunrah, who is BACK!\nFROM THE DEAD!"
+		"The Grim Reaper of Wheat", "Kahmunrah, who is BACK!\nFROM THE DEAD!", "a democrat"
 ]
 
 const Player = preload("res://player/player.tscn")
@@ -64,12 +64,12 @@ func _on_host_pressed():
 	multiplayer.peer_disconnected.connect(remove_player)
 
 	if not dedicated_server():
-		add_player(multiplayer.get_unique_id())
 		if username.text == "":
 			var new_name = silly_names[randi() % silly_names.size()]
 			Globals.player_names[multiplayer.get_unique_id()] = new_name
 		else:
 			Globals.player_names[multiplayer.get_unique_id()] = username.text
+		add_player(multiplayer.get_unique_id())
 
 	print(Globals.player_names)
 	ready_menu.show()
@@ -86,13 +86,16 @@ func _on_join_pressed():
 
 	ready_menu.show()
 	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
-	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = to_text_list(player_list)
-	multiplayer.connected_to_server.connect(give_name)
-#	give_name.rpc_id(1, username.text)
+	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = get_text_players(player_list)
+#	multiplayer.connected_to_server.connect(give_name)
 
 
+@rpc("reliable", "call_local")
 func give_name():
-	heres_my_dope_name.rpc_id(1, username.text)
+	if multiplayer.is_server():
+		heres_my_dope_name(username.text)
+	else:
+		heres_my_dope_name.rpc_id(1, username.text)
 
 
 @rpc("reliable", "any_peer")
@@ -113,7 +116,7 @@ func _on_start_pressed():
 
 @rpc("call_local", "reliable")
 func pre_start_game(level):
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.1).timeout
 	Globals.game_playing = true
 	print("Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
 
@@ -151,6 +154,8 @@ func unpause_and_start():
 func add_player(peer_id):
 	print("Player " + str(peer_id) + " joined!")
 	player_list.append(peer_id)
+	give_name.rpc_id(peer_id)
+	await get_tree().create_timer(1).timeout
 	for player in player_list:
 		update_player_list.rpc_id(player, player_list)
 
@@ -169,14 +174,14 @@ func dedicated_server():
 @rpc("call_local", "reliable")
 func update_player_list(list = []):
 	if list == []:
-		$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
+		$ReadyMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list)
 	else:
 		player_list = list
-		$ReadyMenu/MarginContainer/VBoxContainer/players.text = to_text_list(player_list)
+		$ReadyMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list)
 
 
-func to_text_list(list):
+func get_text_players(list: Array):
 	var thingy = ""
 	for item in list:
-		thingy += str(item) + "\n"
+		thingy += Globals.player_names[item] + " (" + str(item) + ")" + "\n"
 	return thingy
