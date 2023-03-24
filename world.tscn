@@ -41,29 +41,29 @@ spawn_path = NodePath("../players")
 
 [node name="weapons" type="Node3D" parent="."]
 
-[node name="toilet2" parent="weapons" instance=ExtResource("4_71pki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5481, 0.109627, -0.955812)
-
-[node name="toilet" parent="weapons" instance=ExtResource("4_71pki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79488, -9.53674e-07, -0.119255)
-
 [node name="bathtub" parent="weapons" instance=ExtResource("5_73xkf")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.233209, -9.53674e-07, -5.10943)
 
-[node name="hairspray" parent="." instance=ExtResource("6_om4tj")]
+[node name="hairspray" parent="weapons" instance=ExtResource("6_om4tj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31415, 3.57353, -0.333824)
 
-[node name="hairspray2" parent="." instance=ExtResource("6_om4tj")]
+[node name="hairspray2" parent="weapons" instance=ExtResource("6_om4tj")]
 transform = Transform3D(0.80912, 0.587644, 0, -0.587644, 0.80912, 0, 0, 0, 1, 2.96892, 3.85473, -1.30462)
 
-[node name="plunger" parent="." instance=ExtResource("3_k5ba5")]
+[node name="plunger" parent="weapons" instance=ExtResource("3_k5ba5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.02054, 17.3069, 0.986854)
 
-[node name="plunger2" parent="." instance=ExtResource("3_k5ba5")]
+[node name="plunger2" parent="weapons" instance=ExtResource("3_k5ba5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8357, 9.97159, 12.6482)
 
-[node name="plunger3" parent="." instance=ExtResource("3_k5ba5")]
+[node name="plunger3" parent="weapons" instance=ExtResource("3_k5ba5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31203, 7.98131, 6.90299)
 
-[node name="plunger4" parent="." instance=ExtResource("3_k5ba5")]
+[node name="plunger4" parent="weapons" instance=ExtResource("3_k5ba5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2692, 12.3417, 5.90595)
+
+[node name="toilet" parent="weapons" instance=ExtResource("4_71pki")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 6.42305, -4.76837e-07, -0.160326)
+
+[node name="toilet2" parent="weapons" instance=ExtResource("4_71pki")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 14.8067, 0.961337, 0.0499347)
