@@ -4,6 +4,7 @@ extends MultiplayerSynchronizer
 @export var jumping := false
 @export var crouching := false
 @export var firing := false
+@export var selected_weapon = 0
 
 # Synchronized property.
 @export var direction := Vector2()
@@ -45,6 +46,14 @@ func _process(_delta):
 	direction = Input.get_vector("left", "right", "forward", "back")
 	y_rot = 0.0
 	x_rot = 0.0
+	if Input.is_action_just_pressed("next_weapon"):
+		selected_weapon += 1
+		if selected_weapon > 2:
+			selected_weapon = 0
+	if Input.is_action_just_pressed("prev_weapon"):
+		selected_weapon -= 1
+		if selected_weapon < 0:
+			selected_weapon = 2
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
 	if Input.is_action_just_pressed("crouch"):

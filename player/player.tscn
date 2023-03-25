@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cx4cc26pvcslh"]
+[gd_scene load_steps=13 format=3 uid="uid://cx4cc26pvcslh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_3dqsl"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="2_fm7ly"]
+[ext_resource type="Texture2D" uid="uid://d26hbu43dvrpe" path="res://player/plunger.png" id="3_yyclb"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ci62d"]
 properties/0/path = NodePath("PlayerInput:direction")
@@ -30,6 +31,10 @@ properties/1/sync = true
 bg_color = Color(0.796078, 0, 0.490196, 1)
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_q2jow"]
+line_spacing = 0.0
+font_size = 40
 
 [sub_resource type="Animation" id="Animation_gpo70"]
 length = 0.001
@@ -138,11 +143,9 @@ mesh = SubResource("CapsuleMesh_2pdf3")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.631, 0)
 
-[node name="weapon" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0.779264, 1.43996, -1.13037)
+[node name="current_weapon" type="Node3D" parent="."]
 
 [node name="HUD" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Health" type="ProgressBar" parent="HUD"]
 offset_left = 24.0
@@ -216,6 +219,58 @@ offset_right = 5.5
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="weapons" type="VBoxContainer" parent="HUD"]
+offset_left = 10.0
+offset_top = 85.0
+offset_right = 98.0
+offset_bottom = 201.0
+
+[node name="plungers" type="HBoxContainer" parent="HUD/weapons"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 6
+theme_override_constants/separation = 10
+
+[node name="image" type="TextureRect" parent="HUD/weapons/plungers"]
+layout_mode = 2
+texture = ExtResource("3_yyclb")
+expand_mode = 2
+
+[node name="count" type="Label" parent="HUD/weapons/plungers"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_q2jow")
+
+[node name="hairsprays" type="HBoxContainer" parent="HUD/weapons"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 6
+theme_override_constants/separation = 10
+
+[node name="image" type="TextureRect" parent="HUD/weapons/hairsprays"]
+layout_mode = 2
+expand_mode = 2
+
+[node name="count" type="Label" parent="HUD/weapons/hairsprays"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_q2jow")
+
+[node name="toilet_papers" type="HBoxContainer" parent="HUD/weapons"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 6
+theme_override_constants/separation = 10
+
+[node name="image" type="TextureRect" parent="HUD/weapons/toilet_papers"]
+layout_mode = 2
+expand_mode = 2
+
+[node name="count" type="Label" parent="HUD/weapons/toilet_papers"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_q2jow")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

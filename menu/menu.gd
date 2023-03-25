@@ -87,7 +87,6 @@ func _on_join_pressed():
 	ready_menu.show()
 	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
 	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = get_text_players(player_list)
-#	multiplayer.connected_to_server.connect(give_name)
 
 
 @rpc("reliable", "call_local")

@@ -10,7 +10,19 @@ const CAMERA_ROT_SPEED = 0.5
 var gravity = 30
 
 @onready var plunger = preload("res://weapons/plunger/item_plunger.tscn")
-var weapons = 0
+
+## An inventory of all me weapons.  The keys must be in the same order that $HUD/weapons/ is organized, or tons of things will die horrible deaths.
+var weapons = {"plungers": 0, "hairsprays": 0, "toilet_papers": 0}
+@onready var selected_weapon = $PlayerInput.selected_weapon
+
+#Hud stuff
+@onready var plunger_count = $HUD/weapons/plungers/count
+@onready var hairspray_count = $HUD/weapons/hairsprays/count
+@onready var toilet_papers_count = $HUD/weapons/toilet_papers/count
+
+@onready var plunger_box = $HUD/weapons/plungers
+@onready var hairsprays_box = $HUD/weapons/hairsprays
+@onready var toilet_papers_box = $HUD/weapons/toilet_papers
 
 const MAX_HEALTH: float = 100
 var health: float = MAX_HEALTH
@@ -23,6 +35,7 @@ func _enter_tree():
 
 func _ready():
 	$player_name.text = Globals.player_names[$PlayerInput.get_multiplayer_authority()]
+	update_weapons_hud()
 	if str(name).to_int() == multiplayer.get_unique_id():
 		camera.current = true
 		$HUD.visible = true
@@ -66,11 +79,30 @@ func _physics_process(delta):
 
 func gain_weapon(type):
 	if type == "plunger":
-		var p = plunger.instantiate()
-		$weapon.add_child(p)
-		p.rotation_degrees.x = 15 * weapons
+		weapons["plungers"] += 1
+	elif type == "hairspray":
+		weapons["hairsprays"] += 1
+	update_weapons_hud()
 
-	weapons += 1
+
+func update_weapons_hud():
+	plunger_count.text = str(weapons["plungers"])
+	hairspray_count.text = str(weapons["hairsprays"])
+	toilet_papers_count.text = str(weapons["toilet_papers"])
+	var item_list = []
+	for key in weapons.keys():
+		item_list.append(key)
+
+	plunger_box.modulate = Color(0, 0, 0, 255)
+	hairsprays_box.modulate = Color(0, 0, 0, 255)
+	toilet_papers_box.modulate = Color(0, 0, 0, 255)
+
+	if item_list[selected_weapon] == "plungers":
+		plunger_box.modulate = Color(1, 1, 1, 1)
+	elif item_list[selected_weapon] == "hairsprays":
+		hairsprays_box.modulate = Color(1, 1, 1, 1)
+	elif item_list[selected_weapon] == "toilet_papers":
+		toilet_papers_box.modulate = Color(1, 1, 1, 1)
 
 
 func hurt(amount):
