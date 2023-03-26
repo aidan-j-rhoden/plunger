@@ -1,10 +1,11 @@
 extends Control
 
+# Just have these ready to save time later
 @onready var main_menu = $MainMenu
 @onready var address = $MainMenu/MarginContainer/VBoxContainer/address
 @onready var ready_menu = $ReadyMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
-var silly_names = [
+var silly_names = [ # A random name is chosen if you fail to give one. ;)
 		"an anonymous jerk", "Sara Cobbler", "Silly Man Sam",
 		"ima doofus", "Dan Thee Man", "Billy Bob Joe",
 		"Princess Petunia", "a poopy diaper", "Poker Face Pete",
@@ -13,8 +14,9 @@ var silly_names = [
 ]
 
 const Player = preload("res://player/player.tscn")
-const levels = [preload("res://world.tscn")]
+const levels = [preload("res://world.tscn")] # Eventually, multiple levels will be present in this array.
 
+# Network stuff
 const PORT = 9999
 var upnp
 var make_upnp = false
@@ -26,7 +28,7 @@ var ready_list = []
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
-		if make_upnp:
+		if make_upnp: # Make sure to clean up the port mappings for security
 			assert(upnp.delete_port_mapping(PORT, "UDP") == 0, "Curses!  Dat network thingie done bamboozled me!")
 			assert(upnp.delete_port_mapping(PORT, "TCP") == 0, "Oh no!")
 
@@ -35,14 +37,14 @@ func _ready():
 	main_menu.show()
 	ready_menu.hide()
 
-	if dedicated_server():
+	if dedicated_server(): # If this is a dedicated server build, we want it to host a game automatically
 		call_deferred(_on_host_pressed())
 
 
 func _on_host_pressed():
-	main_menu.hide()
+	main_menu.hide() # Hide the main menu, we no longer need it.
 
-	if make_upnp:
+	if make_upnp: # This is a weird way to add port forwarding.  Not all routers support it.
 		upnp = UPNP.new()
 		var discover_result = upnp.discover()
 
@@ -58,46 +60,47 @@ func _on_host_pressed():
 		var external_ip = upnp.query_external_address()
 		print(str(external_ip) + ":" + str(PORT))
 
-	enet_peer.create_server(PORT)
-	multiplayer.multiplayer_peer = enet_peer
-	multiplayer.peer_connected.connect(add_player)
-	multiplayer.peer_disconnected.connect(remove_player)
+	enet_peer.create_server(PORT) # Create enet server
+	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that server
+	multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
+	multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
 
-	if not dedicated_server():
-		if username.text == "":
+	if not dedicated_server(): # If this is a dedicated server, then don't create a playr for it.
+		if username.text == "": # That's what you get for not filling out the required fields!
 			var new_name = silly_names[randi() % silly_names.size()]
-			Globals.player_names[multiplayer.get_unique_id()] = new_name
+			Globals.player_names[multiplayer.get_unique_id()] = new_name # Record in the globals my peer id and my username
 		else:
-			Globals.player_names[multiplayer.get_unique_id()] = username.text
-		add_player(multiplayer.get_unique_id())
+			Globals.player_names[multiplayer.get_unique_id()] = username.text # Record in the globals my peer id and my username
+		add_player(multiplayer.get_unique_id()) # Call add player for the server
 
-	print(Globals.player_names)
-	ready_menu.show()
+	ready_menu.show() # Show the standby and waiting menu.
 
 
-func _on_join_pressed():
-	main_menu.hide()
+func _on_join_pressed(): # When you press the join button.
+	main_menu.hide() # Again, hide main menu.  We no longer need to see it.
 
-	if address.text == "":
-		enet_peer.create_client("localhost", PORT)
+	if address.text == "": # For the sake of speedy debugging, an empty IP will be interpeted as localhost.
+		enet_peer.create_client("localhost", PORT) # Create the enet client
 	else:
 		enet_peer.create_client(address.text, PORT)
-	multiplayer.multiplayer_peer = enet_peer
+	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that client
 
 	ready_menu.show()
 	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
 	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = get_text_players(player_list)
 
 
-@rpc("reliable", "call_local")
-func give_name():
-	if multiplayer.is_server():
+@rpc("reliable", "call_local") # The '@rpc' allows this function to be called remotly.
+	# This uses the reliable protocal, and is allowed to be called locally, that is, by yourself on yourself.
+func give_name(): # The server has ordered us to give our username.
+	if multiplayer.is_server(): # You can't rpc_id yourself, so this fixes that.
 		heres_my_dope_name(username.text)
 	else:
-		heres_my_dope_name.rpc_id(1, username.text)
+		heres_my_dope_name.rpc_id(1, username.text) # Make an rpc call to a specific peer, 1. (1 is always the server)
 
 
-@rpc("reliable", "any_peer")
+@rpc("reliable", "any_peer") # "any_peer" is required here, because @rpc defaults to only allowing a call by the server.
+	# We want any client to be able to call this.
 func heres_my_dope_name(dope_name: String):
 	if dope_name == "":
 		var new_name = silly_names[randi() % silly_names.size()]
@@ -106,9 +109,9 @@ func heres_my_dope_name(dope_name: String):
 		Globals.player_names[multiplayer.get_remote_sender_id()] = dope_name
 
 
-func _on_start_pressed():
+func _on_start_pressed(): # Only the server is allowed to call this.  TODO: Obviously needs to be fixed for a dedicated server.
 	print("    (pressed start)")
-	for player in player_list:
+	for player in player_list: # Iterate over each peer id.
 		print("telling " + str(player) + " to pre_start...")
 		pre_start_game.rpc_id(player, 0)
 
@@ -122,41 +125,41 @@ func pre_start_game(level):
 	main_menu.hide()
 	ready_menu.hide()
 
-	get_tree().paused = true
-	var game_level = levels[level].instantiate()
+	get_tree().paused = true # Pause everything, so all peers start at the same time.
+	var game_level = levels[level].instantiate() # Load the given level.  TODO: Make this choosable in the menu.
 	add_child(game_level)
 
-	if multiplayer.is_server():
-		game_level.add_players(player_list)
+	if multiplayer.is_server(): # Only the server
+		game_level.add_players(player_list) # Add all connected players to the game level
 
-	player_ready.rpc_id(1)
+	player_ready.rpc_id(1) # Tell server we have loaded the level successfully.
 
 
 @rpc("call_local", "any_peer", "reliable")
 func player_ready():
-	if multiplayer.is_server():
+	if multiplayer.is_server(): # For security reasons
 		print(str(multiplayer.get_remote_sender_id()) + " is ready!")
 		ready_list.append(multiplayer.get_remote_sender_id())
 
 		ready_list.sort()
 		player_list.sort()
-		if ready_list == player_list:
+		if ready_list == player_list: # If all the players are ready, tell everyone to start!
 			unpause_and_start.rpc()
 
 
 @rpc("call_local", "reliable")
 func unpause_and_start():
 	print("Server told " + str(multiplayer.get_unique_id()) + " to unpause!")
-	get_tree().paused = false
+	get_tree().paused = false # Unpause everything
 
 
 func add_player(peer_id):
 	print("Player " + str(peer_id) + " joined!")
 	player_list.append(peer_id)
 	give_name.rpc_id(peer_id)
-	await get_tree().create_timer(1).timeout
-	for player in player_list:
-		update_player_list.rpc_id(player, player_list)
+	await get_tree().create_timer(1).timeout # Let the networking line up the player_names in the Globals.
+	for player in player_list: # Go through everyone
+		update_player_list.rpc_id(player, player_list) # and tell them the new list.
 
 
 func remove_player(peer_id):
@@ -166,20 +169,17 @@ func remove_player(peer_id):
 		update_player_list.rpc_id(player, player_list)
 
 
-func dedicated_server():
+func dedicated_server(): # A simple helper function to see if this project build is a dedicated server.
 	return DisplayServer.get_name() == "headless" or OS.has_feature("dedicated_server")
 
 
 @rpc("call_local", "reliable")
 func update_player_list(list = []):
-	if list == []:
-		$ReadyMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list)
-	else:
-		player_list = list
-		$ReadyMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list)
+	player_list = list # Update to the new list given by the server
+	$ReadyMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list) # Set the HUD properly
 
 
-func get_text_players(list: Array):
+func get_text_players(list: Array): # Some fancy formatting
 	var thingy = ""
 	for item in list:
 		thingy += Globals.player_names[item] + " (" + str(item) + ")" + "\n"
