@@ -29,18 +29,18 @@ var health: float = MAX_HEALTH
 
 var crouched = false
 
-func _enter_tree():
+func _enter_tree(): # Set the authority of the PlayerInput node to this node's name.
 	$PlayerInput.set_multiplayer_authority(str(name).to_int())
 
 
 func _ready():
-	$player_name.text = Globals.player_names[$PlayerInput.get_multiplayer_authority()]
+	$player_name.text = Globals.player_names[$PlayerInput.get_multiplayer_authority()] # Set the 3d text label
 	update_weapons_hud()
-	if str(name).to_int() == multiplayer.get_unique_id():
-		camera.current = true
-		$HUD.visible = true
-		$HUD/Health.value = health
-	set_physics_process(multiplayer.is_server())
+	if str(name).to_int() == multiplayer.get_unique_id(): # If this client is associated with this player, 
+		camera.current = true # use this camera,
+		$HUD.visible = true # only show this HUD
+		$HUD/Health.value = health # and set its health to our health.
+	set_physics_process(multiplayer.is_server()) # Only process on the server
 
 
 func _physics_process(delta):
@@ -56,6 +56,7 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 	$PlayerInput.jumping = false
 
+	# Handle crouch.  TODO: Doesn't work.
 	if $PlayerInput.crouching and is_on_floor() and not crouched:
 		crouched = true
 		$PlayerInput.crouching = false
@@ -97,6 +98,7 @@ func update_weapons_hud():
 	hairsprays_box.modulate = Color(0, 0, 0, 255)
 	toilet_papers_box.modulate = Color(0, 0, 0, 255)
 
+	selected_weapon = $PlayerInput.selected_weapon
 	if item_list[selected_weapon] == "plungers":
 		plunger_box.modulate = Color(1, 1, 1, 1)
 	elif item_list[selected_weapon] == "hairsprays":

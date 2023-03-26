@@ -50,10 +50,12 @@ func _process(_delta):
 		selected_weapon += 1
 		if selected_weapon > 2:
 			selected_weapon = 0
+		$"..".update_weapons_hud()
 	if Input.is_action_just_pressed("prev_weapon"):
 		selected_weapon -= 1
 		if selected_weapon < 0:
 			selected_weapon = 2
+		$"..".update_weapons_hud()
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
 	if Input.is_action_just_pressed("crouch"):
