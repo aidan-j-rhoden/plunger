@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2wd6qgj005lo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7jobs"]
+size = Vector3(0.1, 2, 1)
+subdivide_height = 10
+subdivide_depth = 4
+
+[node name="towel" type="Node3D"]
+
+[node name="SoftBody3D" type="SoftBody3D" parent="."]
+mesh = SubResource("BoxMesh_7jobs")
+collision_layer = 3
+collision_mask = 3
+simulation_precision = 10
+linear_stiffness = 1.0

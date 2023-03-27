@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://cx4cc26pvcslh"]
+[gd_scene load_steps=15 format=3 uid="uid://cx4cc26pvcslh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_3dqsl"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="2_fm7ly"]
+[ext_resource type="PackedScene" uid="uid://ckf6i1wjbni8m" path="res://weapons/hairspray/hairspray.tscn" id="3_klpg5"]
 [ext_resource type="Texture2D" uid="uid://d26hbu43dvrpe" path="res://player/plunger.png" id="3_yyclb"]
+[ext_resource type="PackedScene" uid="uid://cyw5kejlrn5ym" path="res://weapons/plunger/plunger.tscn" id="4_nnq03"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ci62d"]
 properties/0/path = NodePath("PlayerInput:direction")
@@ -143,9 +145,16 @@ mesh = SubResource("CapsuleMesh_2pdf3")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.631, 0)
 
-[node name="current_weapon" type="Node3D" parent="."]
+[node name="player_weapons" type="Node3D" parent="."]
+
+[node name="hairspray" parent="player_weapons" instance=ExtResource("3_klpg5")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.513604, 1.34613, -0.7895)
+
+[node name="plunger" parent="player_weapons" instance=ExtResource("4_nnq03")]
+transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0.528925, 1.31668, -0.972328)
 
 [node name="HUD" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Health" type="ProgressBar" parent="HUD"]
 offset_left = 24.0

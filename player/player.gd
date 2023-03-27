@@ -9,8 +9,6 @@ const CAMERA_ROT_SPEED = 0.5
 
 var gravity = 30
 
-@onready var plunger = preload("res://weapons/plunger/item_plunger.tscn")
-
 ## An inventory of all me weapons.  The keys must be in the same order that $HUD/weapons/ is organized, or tons of things will die horrible deaths.
 var weapons = {"plungers": 0, "hairsprays": 0, "toilet_papers": 0}
 @onready var selected_weapon = $PlayerInput.selected_weapon
@@ -36,6 +34,7 @@ func _enter_tree(): # Set the authority of the PlayerInput node to this node's n
 func _ready():
 	$player_name.text = Globals.player_names[$PlayerInput.get_multiplayer_authority()] # Set the 3d text label
 	update_weapons_hud()
+
 	if str(name).to_int() == multiplayer.get_unique_id(): # If this client is associated with this player, 
 		camera.current = true # use this camera,
 		$HUD.visible = true # only show this HUD
@@ -66,6 +65,11 @@ func _physics_process(delta):
 		$PlayerInput.crouching = false
 		$AnimationPlayer.play_backwards("crouch")
 
+	# Handle Fire.
+	if $PlayerInput.firing:
+		$PlayerInput.firing = false
+		if $player_weapons.has_node("plunger"):
+			$player_weapons/plunger.throw()
 	# Get the input direction and handle the movement/deceleration.
 	var direction = (transform.basis * Vector3($PlayerInput.direction.x, 0, $PlayerInput.direction.y)).normalized()
 	if direction:
@@ -97,12 +101,19 @@ func update_weapons_hud():
 	plunger_box.modulate = Color(0, 0, 0, 255)
 	hairsprays_box.modulate = Color(0, 0, 0, 255)
 	toilet_papers_box.modulate = Color(0, 0, 0, 255)
+	for child in $player_weapons.get_children():
+		child.visible = false
 
 	selected_weapon = $PlayerInput.selected_weapon
+
 	if item_list[selected_weapon] == "plungers":
 		plunger_box.modulate = Color(1, 1, 1, 1)
+		if weapons["plungers"] > 0:
+			$player_weapons/plunger.visible = true
 	elif item_list[selected_weapon] == "hairsprays":
 		hairsprays_box.modulate = Color(1, 1, 1, 1)
+		if weapons["hairsprays"] > 0:
+			$player_weapons/hairspray.visible = true
 	elif item_list[selected_weapon] == "toilet_papers":
 		toilet_papers_box.modulate = Color(1, 1, 1, 1)
 

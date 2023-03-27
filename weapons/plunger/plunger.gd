@@ -2,17 +2,13 @@ extends CharacterBody3D
 class_name Plunger
 
 enum STATE {HELD, THROWN, LANDED}
-var state: STATE = STATE.HELD
-var spin_speed = 20
+var state: STATE = STATE.THROWN
+var spin_speed = 1
 var throw_force = 10
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var type = "plunger"
-var picked = false
-var chucked = false
-var prev_vel = 0.0
-var lvel = 0.0
 
 @onready var animation_tree = $AnimationTree
 @onready var animation_player = $AnimationPlayer
@@ -22,13 +18,14 @@ var squish_param = "parameters/Transition/transition_request"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	animation_tree[squish_param] = "reset"
+	if get_parent_node_3d().name == "player_weapons":
+		state = STATE.HELD
 
 
 func _physics_process(delta):
 	if state == STATE.THROWN:
-		rotate_object_local(Vector3.RIGHT, deg_to_rad(spin_speed))
+		rotate_object_local(Vector3.UP, deg_to_rad(spin_speed))
 
-	if state == STATE.THROWN:
 		if !is_on_floor():
 			velocity.y -= gravity * delta
 		move_and_collide(velocity * delta)
@@ -36,6 +33,8 @@ func _physics_process(delta):
 
 func throw():
 	if state == STATE.HELD:
+#		var instance = item.instantiate()
+#		get_node("root/level")
 		top_level = true
 		var direction = _get_direction()
 		transform = transform.looking_at(global_position + direction, Vector3.UP)
@@ -58,13 +57,16 @@ func _get_direction():
 
 
 func squish():
-	animation_tree[squish_param] = "squish"
-	animation_tree[impact_param] = "fire"
+	if state != STATE.HELD:
+		animation_tree[squish_param] = "squish"
+	animation_tree[impact_param] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 
 
 func _on_area_3d_body_entered(body):
-	if not picked and not chucked:
-		picked = true
+	if state == STATE.HELD:
+		return
+	if state == STATE.LANDED:
+		state = STATE.HELD
 		body.gain_weapon(type)
 		queue_free()
 
@@ -72,7 +74,10 @@ func _on_area_3d_body_entered(body):
 func _on_plunger_cup_body_entered(body):
 	if body is Plunger:
 		return
-	if lvel >= 10:
-		squish()
+	squish()
+
+	if state == STATE.THROWN:
+		state = STATE.LANDED
+
 	if body is Player:
 		body.hurt(30)
