@@ -467,7 +467,7 @@ radius = 1.0
 height = 0.1
 radius = 0.128
 
-[node name="plunger" type="RigidBody3D"]
+[node name="plunger" type="CharacterBody3D"]
 script = ExtResource("1_1nc7e")
 
 [node name="Armature" type="Node3D" parent="."]
