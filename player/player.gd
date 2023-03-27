@@ -68,8 +68,14 @@ func _physics_process(delta):
 	# Handle Fire.
 	if $PlayerInput.firing:
 		$PlayerInput.firing = false
-		if $player_weapons.has_node("plunger"):
+		var item_list = []
+		for key in weapons.keys():
+			item_list.append(key)
+		if item_list[selected_weapon] == "plungers" and weapons["plungers"] > 0:
 			$player_weapons/plunger.throw()
+			weapons["plungers"] -= 1
+			update_weapons_hud()
+
 	# Get the input direction and handle the movement/deceleration.
 	var direction = (transform.basis * Vector3($PlayerInput.direction.x, 0, $PlayerInput.direction.y)).normalized()
 	if direction:

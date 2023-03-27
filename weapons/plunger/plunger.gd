@@ -4,9 +4,10 @@ class_name Plunger
 enum STATE {HELD, THROWN, LANDED}
 var state: STATE = STATE.THROWN
 var spin_speed = 1
-var throw_force = 10
+var throw_force = 30
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+@onready var main_scn = get_node("/root/menu/World")
 
 var type = "plunger"
 
@@ -14,6 +15,7 @@ var type = "plunger"
 @onready var animation_player = $AnimationPlayer
 var impact_param = "parameters/hit/request"
 var squish_param = "parameters/Transition/transition_request"
+var can_hit = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,13 +35,17 @@ func _physics_process(delta):
 
 func throw():
 	if state == STATE.HELD:
-#		var instance = item.instantiate()
-#		get_node("root/level")
-		top_level = true
+		var thingy = self.duplicate()
+		main_scn.get_node("weapons").add_child(thingy)
+
+		thingy.state = STATE.THROWN
+		thingy.get_node("pickup").monitoring = false
+		thingy.get_node("CollisionShape3D").disabled = true
+
+		thingy.set_global_transform(global_transform)
 		var direction = _get_direction()
-		transform = transform.looking_at(global_position + direction, Vector3.UP)
-		velocity = direction * throw_force
-		state = STATE.THROWN
+		thingy.look_at(thingy.global_position + direction)
+		thingy.velocity = direction * throw_force
 
 
 func _get_direction():
@@ -63,7 +69,7 @@ func squish():
 
 
 func _on_area_3d_body_entered(body):
-	if state == STATE.HELD:
+	if state == STATE.HELD or state == STATE.THROWN:
 		return
 	if state == STATE.LANDED:
 		state = STATE.HELD
@@ -72,9 +78,11 @@ func _on_area_3d_body_entered(body):
 
 
 func _on_plunger_cup_body_entered(body):
-	if body is Plunger:
+	if body is Plunger or not can_hit:
 		return
 	squish()
+	$pickup.monitoring = true
+	$CollisionShape3D.set_deferred("disabled", false)
 
 	if state == STATE.THROWN:
 		state = STATE.LANDED
