@@ -13,9 +13,6 @@ var silly_names = [ # A random name is chosen if you fail to give one. ;)
 		"The Grim Reaper of Wheat", "Kahmunrah, who is BACK!\nFROM THE DEAD!", "a democrat"
 ]
 
-const Player = preload("res://player/player.tscn")
-const levels = [preload("res://world.tscn")] # Eventually, multiple levels will be present in this array.
-
 # Network stuff
 const PORT = 9999
 var upnp
@@ -128,8 +125,6 @@ func pre_start_game(level):
 	ready_menu.hide()
 
 	get_tree().paused = true # Pause everything, so all peers start at the same time.
-#	var game_level = levels[level].instantiate() # Load the given level.  TODO: Make this choosable in the menu.
-#	add_child(game_level)
 	$World/map.load_level(level)
 
 	if multiplayer.is_server(): # Only the server
