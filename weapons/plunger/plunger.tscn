@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cyw5kejlrn5ym"]
+[gd_scene load_steps=20 format=3 uid="uid://cyw5kejlrn5ym"]
 
 [ext_resource type="Script" path="res://weapons/plunger/plunger.gd" id="1_1nc7e"]
 
@@ -467,6 +467,17 @@ radius = 1.0
 height = 0.1
 radius = 0.128
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jlewu"]
+properties/0/path = NodePath(".:state")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+
 [node name="plunger" type="CharacterBody3D"]
 script = ExtResource("1_1nc7e")
 
@@ -635,6 +646,9 @@ shape = SubResource("SphereShape3D_euf0o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="plunger_cup"]
 shape = SubResource("CylinderShape3D_1j4qy")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jlewu")
 
 [connection signal="body_entered" from="pickup" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="plunger_cup" to="." method="_on_plunger_cup_body_entered"]

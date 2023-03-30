@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://dm7gtcyppp7f"]
 
-[ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="1_6vnut"]
 [ext_resource type="Script" path="res://world.gd" id="1_e1bef"]
+[ext_resource type="Script" path="res://map.gd" id="2_33f5q"]
 [ext_resource type="PackedScene" uid="uid://cyw5kejlrn5ym" path="res://weapons/plunger/plunger.tscn" id="3_k5ba5"]
 [ext_resource type="PackedScene" uid="uid://dn5h7wy4ux8tm" path="res://weapons/toilet/toilet.tscn" id="4_71pki"]
 [ext_resource type="PackedScene" uid="uid://bqkim1sb15d83" path="res://weapons/bathtub/bathtub.tscn" id="5_73xkf"]
@@ -31,7 +31,8 @@ environment = SubResource("Environment_rg5lj")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75, -0.433013, 0, 0, 0)
 
-[node name="map_test" parent="." instance=ExtResource("1_6vnut")]
+[node name="map" type="Node3D" parent="."]
+script = ExtResource("2_33f5q")
 
 [node name="players" type="Node3D" parent="."]
 
@@ -67,3 +68,7 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 6.42305, -4.76837e-07, 
 
 [node name="toilet2" parent="weapons" instance=ExtResource("4_71pki")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 14.8067, 0.961337, 0.0499347)
+
+[node name="WeaponSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://weapons/plunger/plunger.tscn")
+spawn_path = NodePath("../weapons")

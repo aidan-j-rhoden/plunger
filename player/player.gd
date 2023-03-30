@@ -10,7 +10,7 @@ const CAMERA_ROT_SPEED = 0.5
 var gravity = 30
 
 ## An inventory of all me weapons.  The keys must be in the same order that $HUD/weapons/ is organized, or tons of things will die horrible deaths.
-var weapons = {"plungers": 0, "hairsprays": 0, "toilet_papers": 0}
+@export var weapons = {"plungers": 0, "hairsprays": 0, "toilet_papers": 0}
 @onready var selected_weapon = $PlayerInput.selected_weapon
 
 #Hud stuff

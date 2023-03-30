@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://g7jnq4sqs63k"]
+[gd_scene load_steps=3 format=3 uid="uid://g7jnq4sqs63k"]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
+[ext_resource type="PackedScene" uid="uid://dm7gtcyppp7f" path="res://world.tscn" id="2_xu3ik"]
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -42,6 +43,20 @@ horizontal_alignment = 1
 [node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Host"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Which level to play? "
+
+[node name="level_select" type="SpinBox" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+max_value = 1.0
+alignment = 1
+update_on_text_changed = true
 
 [node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -93,6 +108,8 @@ horizontal_alignment = 1
 [node name="Start" type="Button" parent="ReadyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Start!"
+
+[node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]

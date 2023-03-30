@@ -65,6 +65,8 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
 	multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
 
+	Globals.which_level = int($MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/level_select.value)
+
 	if not dedicated_server(): # If this is a dedicated server, then don't create a playr for it.
 		if username.text == "": # That's what you get for not filling out the required fields!
 			var new_name = silly_names[randi() % silly_names.size()]
@@ -113,7 +115,7 @@ func _on_start_pressed(): # Only the server is allowed to call this.  TODO: Obvi
 	print("    (pressed start)")
 	for player in player_list: # Iterate over each peer id.
 		print("telling " + str(player) + " to pre_start...")
-		pre_start_game.rpc_id(player, 0)
+		pre_start_game.rpc_id(player, Globals.which_level)
 
 
 @rpc("call_local", "reliable")
@@ -126,11 +128,12 @@ func pre_start_game(level):
 	ready_menu.hide()
 
 	get_tree().paused = true # Pause everything, so all peers start at the same time.
-	var game_level = levels[level].instantiate() # Load the given level.  TODO: Make this choosable in the menu.
-	add_child(game_level)
+#	var game_level = levels[level].instantiate() # Load the given level.  TODO: Make this choosable in the menu.
+#	add_child(game_level)
+	$World/map.load_level(level)
 
 	if multiplayer.is_server(): # Only the server
-		game_level.add_players(player_list) # Add all connected players to the game level
+		$World.add_players(player_list) # Add all connected players to the game level
 
 	player_ready.rpc_id(1) # Tell server we have loaded the level successfully.
 
