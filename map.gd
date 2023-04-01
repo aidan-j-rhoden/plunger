@@ -1,6 +1,6 @@
 extends Node3D
 
-const levels = ["res://maps/map_test.tscn", "res://maps/test_map_2.tscn"] # Eventually, multiple levels will be present in this array.
+const levels = ["res://maps/map_test.tscn", "res://maps/test_map_2.tscn"]
 
 func load_level(which: int):
 	if levels.size() > which and which > -1:

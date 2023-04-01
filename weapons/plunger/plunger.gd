@@ -8,7 +8,7 @@ var throw_force = 30
 var target := Vector3(0, 0, 0)
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-@onready var main_scn = get_node("/root/menu/World")
+@onready var map = get_node("/root/menu/World/map/")
 
 var type = "plunger"
 
@@ -36,7 +36,7 @@ func _physics_process(delta):
 func throw():
 	if state == STATE.HELD:
 		var thingy = self.duplicate()
-		main_scn.get_node("weapons").add_child(thingy, true)
+		map.get_child(0).get_node("weapons").add_child(thingy, true)
 
 		thingy.state = STATE.THROWN
 		thingy.get_node("pickup").monitoring = false
