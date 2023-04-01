@@ -30,8 +30,7 @@ data = PackedVector3Array(-3, -3, -1.5, -3, 3, -3, -3, 3, -1.5, -3, -3, -1.5, -3
 [node name="test_map_2" instance=ExtResource("1_qydxd")]
 
 [node name="Cube" parent="." index="0"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5, 0)
-visible = false
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 9.56638, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube" index="0"]
 
@@ -93,7 +92,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31203, 7.98131, 6.90299)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2692, 12.3417, 5.05513)
 
 [node name="toilet" parent="weapons" index="5" instance=ExtResource("5_au77f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.42305, 0.272853, -0.160326)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.42305, 0.891974, -0.160326)
 
 [node name="plunger5" parent="weapons" index="6" instance=ExtResource("4_136lf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.28367, 11.6714, -2.16531)
