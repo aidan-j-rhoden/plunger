@@ -34,6 +34,8 @@ func _ready():
 	main_menu.show()
 	ready_menu.hide()
 
+	$MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/level_select.max_value = $World/map.levels.size() - 1
+
 	if dedicated_server(): # If this is a dedicated server build, we want it to host a game automatically
 		call_deferred(_on_host_pressed())
 

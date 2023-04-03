@@ -39,6 +39,7 @@ func throw():
 		map.get_child(0).get_node("weapons").add_child(thingy, true)
 
 		thingy.state = STATE.THROWN
+		thingy.can_hit = true
 		thingy.get_node("pickup").monitoring = false
 		thingy.get_node("CollisionShape3D").disabled = true
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dotxdbaybd76t"]
+[gd_scene load_steps=11 format=3 uid="uid://dotxdbaybd76t"]
 
 [ext_resource type="PackedScene" uid="uid://cxkoscgg7udye" path="res://models/maps/map_test.glb" id="1_yau43"]
 [ext_resource type="PackedScene" uid="uid://bqkim1sb15d83" path="res://weapons/bathtub/bathtub.tscn" id="2_qn4ya"]
 [ext_resource type="PackedScene" uid="uid://ckf6i1wjbni8m" path="res://weapons/hairspray/hairspray.tscn" id="3_837id"]
 [ext_resource type="PackedScene" uid="uid://cyw5kejlrn5ym" path="res://weapons/plunger/plunger.tscn" id="4_5lt2j"]
 [ext_resource type="PackedScene" uid="uid://dn5h7wy4ux8tm" path="res://weapons/toilet/toilet.tscn" id="5_mnrrr"]
+[ext_resource type="Environment" uid="uid://bafg5q5yurqcc" path="res://env_test_map.tres" id="6_krsrl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fdk4"]
 albedo_color = Color(0.2, 0.2, 0.2, 1)
@@ -104,3 +105,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.42305, -4.76837e-07, -0.160
 
 [node name="toilet2" parent="weapons" index="8" instance=ExtResource("5_mnrrr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8067, 0.961337, 0.0499347)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="3"]
+environment = ExtResource("6_krsrl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 0.14686, 0.989157, 0, -0.989157, 0.14686, 0, 0, 0)
+shadow_enabled = true
