@@ -27,6 +27,9 @@ properties/1/sync = true
 properties/2/path = NodePath(".:weapons")
 properties/2/spawn = false
 properties/2/sync = true
+properties/3/path = NodePath("camera_base:rotation")
+properties/3/spawn = true
+properties/3/sync = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xj0bj"]
 
@@ -70,7 +73,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Camera3D:position")
+tracks/2/path = NodePath("camera_base/Camera3D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -110,7 +113,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Camera3D:position")
+tracks/2/path = NodePath("camera_base/Camera3D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -145,7 +148,9 @@ shape = SubResource("CapsuleShape3D_xj0bj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_2pdf3")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="camera_base" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="camera_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.631, 0)
 
 [node name="player_weapons" type="Node3D" parent="."]

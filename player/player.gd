@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name Player
 
-@onready var camera = $Camera3D
+@onready var camera = $camera_base/Camera3D
 
 const SPEED = 8.5
 const JUMP_VELOCITY = 11
