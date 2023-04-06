@@ -1,7 +1,8 @@
 extends RigidBody3D
 
-enum STATE {HELD, THROWN, LANDED}
-var state: STATE = STATE.HELD
+enum STATE {HELD, FIRING, LANDED}
+@export var state: STATE = STATE.LANDED
+var type = "hairspray"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -9,6 +10,21 @@ func _ready():
 		state = STATE.HELD
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+func _physics_process(_delta):
+	if state == STATE.HELD:
+		freeze = true
+
+
+func fire():
+	if state != STATE.FIRING:
+		state = STATE.FIRING
+		$AnimationPlayer.play("spray")
+	else:
+		state = STATE.HELD
+		$AnimationPlayer.play_backwards("spray")
+
+
+func _on_pickup_body_entered(body): # This area only detects the player layer
+	if state == STATE.LANDED:
+		body.gain_weapon(type)
+		queue_free()

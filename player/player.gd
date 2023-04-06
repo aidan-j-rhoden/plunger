@@ -75,6 +75,9 @@ func _physics_process(delta):
 			$player_weapons/plunger.throw()
 			weapons["plungers"] -= 1
 			update_weapons_hud()
+		elif item_list[selected_weapon] == "hairsprays" and weapons["hairsprays"] > 0:
+			$player_weapons/hairspray.fire()
+			update_weapons_hud()
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction = (transform.basis * Vector3($PlayerInput.direction.x, 0, $PlayerInput.direction.y)).normalized()
@@ -104,6 +107,7 @@ func update_weapons_hud():
 	for key in weapons.keys():
 		item_list.append(key)
 
+	# Reset everything
 	plunger_box.modulate = Color(0, 0, 0, 255)
 	hairsprays_box.modulate = Color(0, 0, 0, 255)
 	toilet_papers_box.modulate = Color(0, 0, 0, 255)

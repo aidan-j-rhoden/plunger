@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ckf6i1wjbni8m"]
+[gd_scene load_steps=25 format=3 uid="uid://ckf6i1wjbni8m"]
 
 [ext_resource type="Script" path="res://weapons/hairspray/hairspray.gd" id="1_n7meh"]
 [ext_resource type="Texture2D" uid="uid://c2qni8dahrc1c" path="res://models/weapons/hairspray_hairspray_label.png" id="2_qm2wr"]
@@ -321,6 +321,14 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_8gatv")
 size = Vector2(0.02, 0.02)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_kg4yu"]
+radius = 0.773216
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_txvvd"]
+properties/0/path = NodePath(".:state")
+properties/0/spawn = true
+properties/0/sync = true
+
 [node name="hairspray" type="RigidBody3D"]
 script = ExtResource("1_n7meh")
 
@@ -380,8 +388,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167803, 0.0225545)
 emitting = false
 amount = 50
 lifetime = 0.5
+local_coords = true
 mesh = SubResource("QuadMesh_a5g6m")
 direction = Vector3(0, 0, 1)
 spread = 5.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_max = 0.5
+
+[node name="pickup" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.320145, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pickup"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26215, 0)
+shape = SubResource("SphereShape3D_kg4yu")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_txvvd")
+
+[connection signal="body_entered" from="pickup" to="." method="_on_pickup_body_entered"]
