@@ -5,6 +5,7 @@ extends Control
 @onready var address = $MainMenu/MarginContainer/VBoxContainer/address
 @onready var ready_menu = $ReadyMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
+
 var silly_names = [ # A random name is chosen if you fail to give one. ;)
 		"an anonymous jerk", "Sara Cobbler", "Silly Man Sam",
 		"ima doofus", "Dan Thee Man", "Billy Bob Joe",
@@ -111,17 +112,19 @@ func heres_my_dope_name(dope_name: String):
 
 
 func _on_start_pressed(): # Only the server is allowed to call this.  TODO: Obviously needs to be fixed for a dedicated server.
-	print("    (pressed start)")
+	print("  (pressed start)")
+	pre_start_game(Globals.which_level)
 	for player in player_list: # Iterate over each peer id.
-		print("telling " + str(player) + " to pre_start...")
-		pre_start_game.rpc_id(player, Globals.which_level)
+		print("    telling " + str(player) + " to pre_start...")
+		if player != 1:
+			pre_start_game.rpc_id(player, Globals.which_level)
 
 
 @rpc("call_local", "reliable")
 func pre_start_game(level):
 	await get_tree().create_timer(0.1).timeout
 	Globals.game_playing = true
-	print("Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
+	print("    Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
 
 	main_menu.hide()
 	ready_menu.hide()

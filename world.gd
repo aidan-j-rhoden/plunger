@@ -3,9 +3,7 @@ extends Node
 #@onready var main_menu = $CanvasLayer/MainMenu
 #@onready var address = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/address
 
-const Player = preload("res://player/player.tscn")
-
-const PORT = 9999
+const player_scene = preload("res://player/player.tscn")
 
 func _ready():
 	pass
@@ -16,9 +14,9 @@ func _ready():
 
 
 func add_players(players):
-	for p_id in players:
-		var player = Player.instantiate()
-		player.name = str(p_id)
+	for ID in players:
+		var player = player_scene.instantiate()
+		player.name = str(ID)
 		get_node("players").add_child(player)
 
 

@@ -37,15 +37,13 @@ func fire():
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		y_rot = -event.relative.x * get_physics_process_delta_time() * CAMERA_ROT_SPEED
-		x_rot = -event.relative.y * get_physics_process_delta_time() * CAMERA_ROT_SPEED
+		y_rot = -event.relative.x * CAMERA_ROT_SPEED
+		x_rot = -event.relative.y * CAMERA_ROT_SPEED
 
 
 func _process(_delta):
 	# Get the input direction and handle the movement/deceleration.
 	direction = Input.get_vector("left", "right", "forward", "back")
-	y_rot = 0.0
-	x_rot = 0.0
 	if Input.is_action_just_pressed("next_weapon"):
 		selected_weapon += 1
 		if selected_weapon > 2:

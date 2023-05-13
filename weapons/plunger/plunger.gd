@@ -16,7 +16,6 @@ var type = "plunger"
 @onready var animation_player = $AnimationPlayer
 var impact_param = "parameters/hit/request"
 var squish_param = "parameters/Transition/transition_request"
-var can_hit = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,6 +26,8 @@ func _ready():
 
 func _physics_process(delta):
 	if state == STATE.THROWN:
+		$pickup.monitoring = false
+		$plunger_cup.monitoring = true
 		if !is_on_floor():
 			velocity.y -= gravity * delta
 		move_and_collide(velocity * delta)
@@ -39,7 +40,6 @@ func throw():
 		map.get_child(0).get_node("weapons").add_child(thingy, true)
 
 		thingy.state = STATE.THROWN
-		thingy.can_hit = true
 		thingy.get_node("pickup").monitoring = false
 		thingy.get_node("CollisionShape3D").disabled = true
 
@@ -71,8 +71,6 @@ func squish():
 
 
 func _on_area_3d_body_entered(body):
-	if state == STATE.HELD or state == STATE.THROWN:
-		return
 	if state == STATE.LANDED:
 		state = STATE.HELD
 		body.gain_weapon(type)
@@ -80,7 +78,7 @@ func _on_area_3d_body_entered(body):
 
 
 func _on_plunger_cup_body_entered(body):
-	if body is Plunger or not can_hit:
+	if not multiplayer.is_server() or body is Plunger:
 		return
 	squish()
 
@@ -89,6 +87,5 @@ func _on_plunger_cup_body_entered(body):
 
 	if state == STATE.THROWN:
 		state = STATE.LANDED
-
-	if body is Player:
-		body.hurt(30)
+		if body is Player:
+			body.hurt(30)

@@ -5,7 +5,7 @@ class_name Player
 
 const SPEED = 8.5
 const JUMP_VELOCITY = 11
-const CAMERA_ROT_SPEED = 0.5
+const CAMERA_ROT_SPEED = 15
 
 var gravity = 30
 
@@ -23,7 +23,7 @@ var gravity = 30
 @onready var toilet_papers_box = $HUD/weapons/toilet_papers
 
 const MAX_HEALTH: float = 100
-var health: float = MAX_HEALTH
+@export var health: float = MAX_HEALTH
 
 var crouched = false
 
@@ -43,8 +43,10 @@ func _ready():
 
 
 func _physics_process(delta):
-	rotate_y($PlayerInput.y_rot)
-	camera.rotate_x($PlayerInput.x_rot)
+	rotate_y($PlayerInput.y_rot * delta * CAMERA_ROT_SPEED)
+	camera.rotate_x($PlayerInput.x_rot * delta * CAMERA_ROT_SPEED)
+	$PlayerInput.y_rot = 0.0
+	$PlayerInput.x_rot = 0.0
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -89.9, 89.9)
 	# Add the gravity.
 	if not is_on_floor():
