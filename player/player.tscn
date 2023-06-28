@@ -1,35 +1,36 @@
-[gd_scene load_steps=15 format=3 uid="uid://cx4cc26pvcslh"]
+[gd_scene load_steps=13 format=3 uid="uid://cx4cc26pvcslh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_3dqsl"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="2_fm7ly"]
-[ext_resource type="PackedScene" uid="uid://ckf6i1wjbni8m" path="res://weapons/hairspray/hairspray.tscn" id="3_klpg5"]
 [ext_resource type="Texture2D" uid="uid://d26hbu43dvrpe" path="res://player/plunger.png" id="3_yyclb"]
-[ext_resource type="PackedScene" uid="uid://cyw5kejlrn5ym" path="res://weapons/plunger/plunger.tscn" id="4_nnq03"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ci62d"]
 properties/0/path = NodePath("PlayerInput:direction")
 properties/0/spawn = false
 properties/0/sync = true
+properties/0/watch = false
 properties/1/path = NodePath("PlayerInput:x_rot")
 properties/1/spawn = false
 properties/1/sync = true
+properties/1/watch = false
 properties/2/path = NodePath("PlayerInput:y_rot")
 properties/2/spawn = false
 properties/2/sync = true
+properties/2/watch = false
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vnsqa"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
+properties/0/watch = false
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(".:weapons")
-properties/2/spawn = false
+properties/1/watch = false
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:health")
-properties/3/spawn = false
-properties/3/sync = true
+properties/2/watch = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xj0bj"]
 
@@ -85,7 +86,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_67fq2"]
 resource_name = "crouch"
-length = 0.3
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -93,7 +94,7 @@ tracks/0/path = NodePath("MeshInstance3D:mesh:height")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [2.0, 1.1]
@@ -105,7 +106,7 @@ tracks/1/path = NodePath("CollisionShape3D:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [2.0, 1.1]
@@ -117,7 +118,7 @@ tracks/2/path = NodePath("Camera3D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, 1.631, 0), Vector3(0, 1.23439, 0)]
@@ -152,12 +153,6 @@ mesh = SubResource("CapsuleMesh_2pdf3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.631, 0)
 
 [node name="player_weapons" type="Node3D" parent="."]
-
-[node name="hairspray" parent="player_weapons" instance=ExtResource("3_klpg5")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.513604, 1.34613, -0.7895)
-
-[node name="plunger" parent="player_weapons" instance=ExtResource("4_nnq03")]
-transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0.528925, 1.31668, -0.972328)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 visible = false
