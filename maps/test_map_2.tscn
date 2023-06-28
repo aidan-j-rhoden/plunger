@@ -1,10 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://dpdw3fhgu22ox"]
+[gd_scene load_steps=20 format=3 uid="uid://dpdw3fhgu22ox"]
 
 [ext_resource type="PackedScene" uid="uid://ce8durur105f2" path="res://models/maps/test_map_2.glb" id="1_qydxd"]
-[ext_resource type="PackedScene" uid="uid://bqkim1sb15d83" path="res://weapons/bathtub/bathtub.tscn" id="2_4ewpd"]
-[ext_resource type="PackedScene" uid="uid://ckf6i1wjbni8m" path="res://weapons/hairspray/hairspray.tscn" id="3_xbp4p"]
-[ext_resource type="PackedScene" uid="uid://cyw5kejlrn5ym" path="res://weapons/plunger/plunger.tscn" id="4_136lf"]
-[ext_resource type="PackedScene" uid="uid://dn5h7wy4ux8tm" path="res://weapons/toilet/toilet.tscn" id="5_au77f"]
 [ext_resource type="Environment" uid="uid://bj4wax1j76pjl" path="res://maps/test_map_2_env.tres" id="6_v2ldj"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_xrbeb"]
@@ -198,27 +194,6 @@ _spawnable_scenes = PackedStringArray("res://weapons/plunger/plunger.tscn", "res
 spawn_path = NodePath("../weapons")
 
 [node name="weapons" type="Node3D" parent="." index="9"]
-
-[node name="bathtub" parent="weapons" index="0" instance=ExtResource("2_4ewpd")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.0544463, 0.0696054, -5.10411)
-
-[node name="hairspray" parent="weapons" index="1" instance=ExtResource("3_xbp4p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31415, 9.61203, -0.333824)
-
-[node name="hairspray2" parent="weapons" index="2" instance=ExtResource("3_xbp4p")]
-transform = Transform3D(0.80912, 0.587644, 0, -0.587644, 0.80912, 0, 0, 0, 1, 2.96892, 9.89323, -1.30462)
-
-[node name="plunger3" parent="weapons" index="3" instance=ExtResource("4_136lf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31203, 7.98131, 6.90299)
-
-[node name="plunger4" parent="weapons" index="4" instance=ExtResource("4_136lf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2692, 12.3417, 5.05513)
-
-[node name="toilet" parent="weapons" index="5" instance=ExtResource("5_au77f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.42305, 0.891974, -0.160326)
-
-[node name="plunger5" parent="weapons" index="6" instance=ExtResource("4_136lf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.28367, 11.6714, -2.16531)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." index="10"]
 environment = ExtResource("6_v2ldj")

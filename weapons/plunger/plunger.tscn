@@ -471,12 +471,15 @@ radius = 0.128
 properties/0/path = NodePath(".:state")
 properties/0/spawn = true
 properties/0/sync = true
+properties/0/watch = false
 properties/1/path = NodePath(".:position")
 properties/1/spawn = true
 properties/1/sync = true
+properties/1/watch = false
 properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/sync = true
+properties/2/watch = false
 
 [node name="plunger" type="CharacterBody3D"]
 script = ExtResource("1_1nc7e")
@@ -632,6 +635,7 @@ parameters/Transition/current_state = "reset"
 parameters/Transition/transition_request = ""
 parameters/Transition/current_index = 1
 parameters/hit/active = false
+parameters/hit/internal_active = false
 parameters/hit/request = 0
 
 [node name="pickup" type="Area3D" parent="."]

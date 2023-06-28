@@ -27,8 +27,8 @@ func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 		if make_upnp: # Make sure to clean up the port mappings for security
-			assert(upnp.delete_port_mapping(PORT, "UDP") == 0, "Curses!  Dat network thingie done bamboozled me!")
-			assert(upnp.delete_port_mapping(PORT, "TCP") == 0, "Oh no!")
+			assert(upnp.delete_port_mapping(PORT, "UDP") == 0, "She left without saying goodbye. :(")
+			assert(upnp.delete_port_mapping(PORT, "TCP") == 0, "It was already gone.")
 
 
 func _ready():
