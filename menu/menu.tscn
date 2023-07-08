@@ -40,13 +40,13 @@ layout_mode = 2
 text = "Main Menu"
 horizontal_alignment = 1
 
-[node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Host"
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
+
+[node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Host"
 
 [node name="Label" type="Label" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -58,13 +58,13 @@ max_value = 1.0
 alignment = 1
 update_on_text_changed = true
 
-[node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Join"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
+
+[node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Join"
 
 [node name="username" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -72,10 +72,11 @@ placeholder_text = "username"
 alignment = 1
 expand_to_text_length = true
 
-[node name="address" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
+[node name="address" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 placeholder_text = "127.0.0.1"
 alignment = 1
+expand_to_text_length = true
 
 [node name="ReadyMenu" type="PanelContainer" parent="."]
 visible = false
@@ -111,6 +112,6 @@ text = "Start!"
 
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="ReadyMenu/MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]

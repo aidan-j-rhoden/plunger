@@ -2,7 +2,7 @@ extends Control
 
 # Just have these ready to save time later
 @onready var main_menu = $MainMenu
-@onready var address = $MainMenu/MarginContainer/VBoxContainer/address
+@onready var address = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/address
 @onready var ready_menu = $ReadyMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
 

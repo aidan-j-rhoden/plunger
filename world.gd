@@ -5,8 +5,8 @@ extends Node
 
 const player_scene = preload("res://player/player.tscn")
 
-func _ready():
-	pass
+#func _ready():
+#	connect(multiplayer.peer_connected, remove_player())
 
 
 #func _process(delta):
