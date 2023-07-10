@@ -3,7 +3,7 @@ extends Control
 # Just have these ready to save time later
 @onready var main_menu = $MainMenu
 @onready var address = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/address
-@onready var ready_menu = $ReadyMenu
+@onready var choice_menu = $ChoiceMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
 
 var silly_names = [ # A random name is chosen if you fail to give one. ;)
@@ -33,9 +33,7 @@ func _unhandled_input(_event):
 
 func _ready():
 	main_menu.show()
-	ready_menu.hide()
-
-	$MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/level_select.max_value = $World/map.levels.size() - 1
+	choice_menu.hide()
 
 	if dedicated_server(): # If this is a dedicated server build, we want it to host a game automatically
 		call_deferred(_on_host_pressed())
@@ -65,7 +63,7 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
 	multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
 
-	Globals.which_level = int($MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/level_select.value)
+#	Globals.which_level = int($MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/level_select.value)
 
 	if not dedicated_server(): # If this is a dedicated server, then don't create a playr for it.
 		if username.text == "": # That's what you get for not filling out the required fields!
@@ -75,10 +73,10 @@ func _on_host_pressed():
 			Globals.player_names[multiplayer.get_unique_id()] = username.text # Record in the globals my peer id and my username
 		add_player(multiplayer.get_unique_id()) # Call add player for the server
 
-	ready_menu.show() # Show the standby and waiting menu.
+	choice_menu.show() # Show the standby and waiting menu.
 
 
-func _on_join_pressed(): # When you press the join button.
+func _on_connect_pressed(): # When you press the connect button.
 	main_menu.hide() # Again, hide main menu.  We no longer need to see it.
 
 	if address.text == "": # For the sake of speedy debugging, an empty IP will be interpeted as localhost.
@@ -87,9 +85,9 @@ func _on_join_pressed(): # When you press the join button.
 		enet_peer.create_client(address.text, PORT)
 	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that client
 
-	ready_menu.show()
-	ready_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
-	ready_menu.get_node("MarginContainer/VBoxContainer/players").text = get_text_players(player_list)
+	choice_menu.show()
+	choice_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
+	choice_menu.get_node("MarginContainer/VBoxContainer/players").text = get_text_players(player_list)
 
 
 @rpc("reliable", "call_local") # The '@rpc' allows this function to be called remotly.
@@ -127,7 +125,7 @@ func pre_start_game(level):
 	print("    Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
 
 	main_menu.hide()
-	ready_menu.hide()
+	choice_menu.hide()
 
 	get_tree().paused = true # Pause everything, so all peers start at the same time.
 	$World/map.load_level(level)
@@ -179,7 +177,7 @@ func dedicated_server(): # A simple helper function to see if this project build
 @rpc("call_local", "reliable")
 func update_player_list(list = []):
 	player_list = list # Update to the new list given by the server
-	$ReadyMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list) # Set the HUD properly
+	$ChoiceMenu/MarginContainer/VBoxContainer/players.text = get_text_players(player_list) # Set the HUD properly
 
 
 func get_text_players(list: Array): # Some fancy formatting

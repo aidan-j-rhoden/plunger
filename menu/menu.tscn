@@ -46,25 +46,15 @@ alignment = 1
 
 [node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Host"
-
-[node name="Label" type="Label" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Which level to play? "
-
-[node name="level_select" type="SpinBox" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-max_value = 1.0
-alignment = 1
-update_on_text_changed = true
+text = "Host (debug)"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="connect" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Join"
+text = "Connect:"
 
 [node name="username" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -78,7 +68,7 @@ placeholder_text = "127.0.0.1"
 alignment = 1
 expand_to_text_length = true
 
-[node name="ReadyMenu" type="PanelContainer" parent="."]
+[node name="ChoiceMenu" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -91,27 +81,60 @@ offset_bottom = -202.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ReadyMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="ChoiceMenu"]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ReadyMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ChoiceMenu/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="players" type="Label" parent="ReadyMenu/MarginContainer/VBoxContainer"]
+[node name="rooms" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/rooms"]
+layout_mode = 2
+text = "Which level to play? "
+
+[node name="level_select" type="SpinBox" parent="ChoiceMenu/MarginContainer/VBoxContainer/rooms"]
+layout_mode = 2
+max_value = 1.0
+alignment = 1
+update_on_text_changed = true
+
+[node name="Host" type="Button" parent="ChoiceMenu/MarginContainer/VBoxContainer/rooms"]
+layout_mode = 2
+text = "Create room"
+
+[node name="room_lists" type="VBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="example_room" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists"]
+layout_mode = 2
+
+[node name="info" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
+layout_mode = 2
+
+[node name="level" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/info"]
+layout_mode = 2
+text = "What level: The level with the really long name (IDK why)"
 horizontal_alignment = 1
 
-[node name="Start" type="Button" parent="ReadyMenu/MarginContainer/VBoxContainer"]
+[node name="players" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/info"]
 layout_mode = 2
-text = "Start!"
+text = "Players playing: 1.7"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/info"]
+layout_mode = 2
+text = "Join room"
 
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="ReadyMenu/MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="ChoiceMenu/MarginContainer/VBoxContainer/rooms/Host" to="." method="_on_host_pressed"]

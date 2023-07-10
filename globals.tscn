@@ -6,6 +6,7 @@
 properties/0/path = NodePath("Globals:player_names")
 properties/0/spawn = true
 properties/0/sync = true
+properties/0/watch = false
 
 [node name="Globals" type="MultiplayerSynchronizer"]
 replication_config = SubResource("SceneReplicationConfig_w1fub")

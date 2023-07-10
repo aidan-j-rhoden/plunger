@@ -1,9 +1,12 @@
 extends Node
 
-## This stores whether a game is curently playing.  This will probably be removed, as I hope to eventually impliment rooms.
-@export var game_playing := false
-
 ## A dictonary storing the peer ids as keys and their usernames as values
 @export var player_names = {}
 
-@export var which_level = 0
+## This array stores all the rooms currently being played
+## An example would look like this:
+##{
+##	"room1": {"players": ["Joe", "Jane", "uncle Bob"], "level": "Station"},
+##	"room2": {"players": ["same", "darn", "old", "name"], "level": "Death Hole"}
+##}
+@export var rooms = {}

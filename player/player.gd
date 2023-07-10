@@ -32,14 +32,13 @@ func _enter_tree(): # Set the authority of the PlayerInput node to this node's n
 
 
 func _ready():
-	$player_name.text = Globals.player_names[$PlayerInput.get_multiplayer_authority()] # Set the 3d text label
-#	update_weapons_hud()
+	$player_name.text = Globals.player_names[input.get_multiplayer_authority()] # Set the 3d text label
+	set_physics_process(multiplayer.is_server()) # Only process on the server
 
 	if str(name).to_int() == multiplayer.get_unique_id(): # If this client is associated with this player, 
 		camera.current = true # use this camera,
 		$HUD.visible = true # only show this HUD
 		$HUD/Health.value = health # and set its health to our health.
-	set_physics_process(multiplayer.is_server()) # Only process on the server
 
 
 func _physics_process(delta):

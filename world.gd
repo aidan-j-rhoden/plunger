@@ -1,16 +1,9 @@
 extends Node
 
-#@onready var main_menu = $CanvasLayer/MainMenu
-#@onready var address = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/address
-
 const player_scene = preload("res://player/player.tscn")
 
-#func _ready():
-#	connect(multiplayer.peer_connected, remove_player())
-
-
-#func _process(delta):
-#	$DirectionalLight3D.rotation_degrees.x += delta * 2
+func _ready():
+	multiplayer.peer_disconnected.connect(remove_player)
 
 
 func add_players(players):

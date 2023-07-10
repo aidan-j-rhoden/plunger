@@ -2,4 +2,4 @@
 .godot/
 *.blend
 *.blend1
-.DS_Store/
+*.dmg

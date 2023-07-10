@@ -4,7 +4,6 @@ extends MultiplayerSynchronizer
 @export var jumping := false
 @export var crouching := false
 @export var firing := false
-#@export var selected_weapon = 0
 
 # Synchronized property.
 @export var direction := Vector2()
@@ -37,23 +36,14 @@ func fire():
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		y_rot = float(-event.relative.x) * CAMERA_ROT_SPEED
-		x_rot = float(-event.relative.y) * CAMERA_ROT_SPEED
+		y_rot += float(-event.relative.x) * CAMERA_ROT_SPEED
+		x_rot += float(-event.relative.y) * CAMERA_ROT_SPEED
 
 
 func _process(_delta):
 	# Get the input direction and handle the movement/deceleration.
 	direction = Input.get_vector("left", "right", "forward", "back")
-#	if Input.is_action_just_pressed("next_weapon"):
-#		selected_weapon += 1
-#		if selected_weapon > 2:
-#			selected_weapon = 0
-#		$"..".update_weapons_hud()
-#	if Input.is_action_just_pressed("prev_weapon"):
-#		selected_weapon -= 1
-#		if selected_weapon < 0:
-#			selected_weapon = 2
-#		$"..".update_weapons_hud()
+
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
 	if Input.is_action_just_pressed("crouch"):
