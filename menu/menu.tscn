@@ -46,7 +46,7 @@ alignment = 1
 
 [node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Host (debug)"
+text = "Host (debug only)"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -137,4 +137,3 @@ text = "Join room"
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/connect" to="." method="_on_connect_pressed"]
-[connection signal="pressed" from="ChoiceMenu/MarginContainer/VBoxContainer/rooms/Host" to="." method="_on_host_pressed"]
