@@ -49,10 +49,10 @@ func _process(_delta):
 		if child.name != "example_room":
 			child.queue_free()
 
-	for room in Globals.rooms:
-		var new_room_info = example_room.instantiate()
-		new_room_info.get_node("level").text = "What level: " + room.level
-		new_room_info.get_node("players").text = "Players playing: " + str(len(room.players))
+	for key in Globals.rooms.keys():
+		var new_room_info = example_room.duplicate()
+		new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
+		new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
 		room_lists.add_child(new_room_info)
 
 
@@ -111,6 +111,11 @@ func _on_create_room_pressed(): ## When the player presses the creat room button
 	rpc_id(1, "create_level", $ChoiceMenu/MarginContainer/VBoxContainer/rooms/level_select.selected)
 
 
+@rpc("reliable", "any_peer")
+func create_level(which):
+	Globals.rooms[which] = {"players": [], "level": which}
+
+
 @rpc("reliable", "call_local") # The '@rpc' allows this function to be called remotly.
 	# This uses the reliable protocal, and is allowed to be called locally, that is, by yourself on yourself.
 func give_name(): # The server has ordered us to give our username.
@@ -128,19 +133,6 @@ func heres_my_dope_name(dope_name: String):
 		Globals.player_names[multiplayer.get_remote_sender_id()] = new_name
 	else:
 		Globals.player_names[multiplayer.get_remote_sender_id()] = dope_name
-
-
-@rpc("call_local", "reliable")
-func pre_start_game(level):
-	await get_tree().create_timer(0.1).timeout
-	Globals.game_playing = true
-	print("    Server told " + str(multiplayer.get_unique_id()) + " to prestart the game!")
-
-	main_menu.hide()
-	choice_menu.hide()
-
-	get_tree().paused = true # Pause everything, so all peers start at the same time.
-	$World/map.load_level(level)
 
 
 func add_player(peer_id): # Server only
@@ -164,5 +156,3 @@ func get_text_players(list: Array): # Some fancy formatting
 	for item in list:
 		thingy += Globals.player_names[item] + " (" + str(item) + ")" + "\n"
 	return thingy
-
-

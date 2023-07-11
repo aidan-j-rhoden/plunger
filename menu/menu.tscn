@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://g7jnq4sqs63k"]
+[gd_scene load_steps=4 format=3 uid="uid://g7jnq4sqs63k"]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
+[ext_resource type="Script" path="res://menu/create.gd" id="2_77crj"]
 [ext_resource type="PackedScene" uid="uid://dm7gtcyppp7f" path="res://world.tscn" id="2_xu3ik"]
 
 [node name="menu" type="Control"]
@@ -115,7 +116,9 @@ popup/item_3/id = 4
 
 [node name="create" type="Button" parent="ChoiceMenu/MarginContainer/VBoxContainer/rooms"]
 layout_mode = 2
+disabled = true
 text = "Create room"
+script = ExtResource("2_77crj")
 
 [node name="room_lists" type="VBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2

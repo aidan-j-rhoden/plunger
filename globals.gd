@@ -10,3 +10,11 @@ extends Node
 ##	"room2": {"players": ["same", "darn", "old", "name"], "level": "Death Hole"}
 ##}
 @export var rooms = {}
+
+var old_rooms = {}
+
+func _process(_delta):
+	if OS.is_debug_build():
+		if old_rooms != Globals.rooms:
+			print(rooms)
+			old_rooms = Globals.rooms

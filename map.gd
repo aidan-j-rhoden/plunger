@@ -1,4 +1,4 @@
-extends Node3D
+extends Node
 
 @export var levels = {"1": "res://maps/map_test.tscn", "2": "res://maps/test_map_2.tscn", "3": "res://maps/test_map_3.tscn", "4": "res://maps/test_level_4.tscn"}
 
