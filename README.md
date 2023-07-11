@@ -4,5 +4,4 @@
 * This will hopefully evolve into a comical randomized experience.
 
 ## Development
-* Anyone is welcome to contribute
-* See [link to trello board](yaada) for the **plan**
+* Anyone except Bill Gates is welcome to contribute
