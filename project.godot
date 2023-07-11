@@ -20,6 +20,10 @@ config/icon="res://plunger.png"
 
 Globals="*res://globals.tscn"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 forward={

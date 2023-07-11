@@ -69,15 +69,33 @@ shadow_mesh = SubResource("ArrayMesh_8df7r")
 [node name="Plane" parent="." index="0"]
 mesh = SubResource("ArrayMesh_105p7")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." index="1"]
-_spawnable_scenes = PackedStringArray("res://weapons/plunger/plunger.tscn", "res://weapons/hairspray/hairspray.tscn")
-spawn_path = NodePath("../weapons")
+[node name="environment" type="Node3D" parent="." index="1"]
+editor_description = "Any lights, reflection probes, and world enviroments go here"
 
-[node name="weapons" type="Node3D" parent="." index="2"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="3"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="environment" index="0"]
 environment = ExtResource("6_krsrl")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="4"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="environment" index="1"]
 transform = Transform3D(1, 0, 0, 0, 0.14686, 0.989157, 0, -0.989157, 0.14686, 0, 0, 0)
 shadow_enabled = true
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." index="2"]
+_spawnable_scenes = PackedStringArray("res://player/player.tscn")
+spawn_path = NodePath("../players")
+
+[node name="players" type="Node3D" parent="." index="3"]
+
+[node name="spawn_points" type="Node3D" parent="." index="4"]
+editor_description = "The possible spawn locations"
+
+[node name="point4" type="Node3D" parent="spawn_points" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8255, -25.7205)
+
+[node name="point3" type="Node3D" parent="spawn_points" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.48827, 28.0289)
+
+[node name="point2" type="Node3D" parent="spawn_points" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.85075, 0)
+
+[node name="point" type="Node3D" parent="spawn_points" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.9541, 3.46512, 12.4472)
