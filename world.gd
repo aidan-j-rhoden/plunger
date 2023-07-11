@@ -2,8 +2,8 @@ extends Node
 
 const player_scene = preload("res://player/player.tscn")
 
-func _ready():
-	multiplayer.peer_disconnected.connect(remove_player)
+#func _ready():
+#	multiplayer.peer_disconnected.connect(remove_player)
 
 
 func add_player(id):
@@ -13,8 +13,8 @@ func add_player(id):
 		get_node("map/players").add_child(player)
 
 
-func remove_player(peer_id):
-	get_node("players/" + str(peer_id)).queue_free()
+#func remove_player(peer_id):
+#	get_node("players/" + str(peer_id)).queue_free()
 
 
 func dedicated_server():
