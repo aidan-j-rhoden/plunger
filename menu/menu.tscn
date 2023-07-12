@@ -14,7 +14,6 @@ grow_vertical = 2
 script = ExtResource("1_gwxu1")
 
 [node name="MainMenu" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,6 +70,7 @@ alignment = 1
 expand_to_text_length = true
 
 [node name="ChoiceMenu" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,6 +124,7 @@ script = ExtResource("2_77crj")
 layout_mode = 2
 
 [node name="example_room" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists"]
+visible = false
 layout_mode = 2
 
 [node name="level" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]

@@ -65,6 +65,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_8df7r")
 
 [node name="map_test" instance=ExtResource("1_yau43")]
+editor_description = "All the maps, as of yet, need to follow this basic format."
 
 [node name="Plane" parent="." index="0"]
 mesh = SubResource("ArrayMesh_105p7")

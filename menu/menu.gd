@@ -62,9 +62,7 @@ func _process(_delta):
 		old_room_list = Globals.rooms
 
 
-func _on_host_pressed(): # Start up the server
-	main_menu.hide() # Hide the main menu, we no longer need it.
-
+func _on_host_pressed(): # Start up the server.  This function is automatically called, except for when we are using a debug build.
 	if make_upnp: # This is a weird way to add port forwarding.  Not all routers support it.
 		upnp = UPNP.new()
 		var discover_result = upnp.discover()
@@ -100,7 +98,7 @@ func _on_connect_pressed(): # When you press the connect button.
 
 
 func _on_join_room_pressed(which_room):
-	print("You pressed join")
+	print("You pressed join room " + str(which_room))
 
 
 func _on_create_room_pressed(): ## When the player presses the creat room button
@@ -111,15 +109,13 @@ func _on_create_room_pressed(): ## When the player presses the creat room button
 @rpc("reliable", "any_peer")
 func create_level(which):
 	Globals.rooms[which] = {"players": [], "level": which}
+	$World.spawn_level(str(which))
 
 
-@rpc("reliable", "call_local") # The '@rpc' allows this function to be called remotly.
+@rpc("reliable") # The '@rpc' allows this function to be called remotly.
 	# This uses the reliable protocal, and is allowed to be called locally, that is, by yourself on yourself.
 func give_name(): # The server has ordered us to give our username.
-	if multiplayer.is_server(): # You can't rpc_id yourself, so this fixes that.
-		heres_my_dope_name(username.text)
-	else:
-		heres_my_dope_name.rpc_id(1, username.text) # Make an rpc call to a specific peer, 1. (1 is always the server)
+	heres_my_dope_name.rpc_id(1, username.text) # Make an rpc call to a specific peer, 1. (1 is always the server)
 
 
 @rpc("reliable", "any_peer") # "any_peer" is required here, because @rpc defaults to only allowing a call by the server.

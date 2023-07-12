@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dm7gtcyppp7f"]
+[gd_scene load_steps=2 format=3 uid="uid://dm7gtcyppp7f"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_e1bef"]
-[ext_resource type="Script" path="res://map.gd" id="2_33f5q"]
 
 [node name="World" type="Node"]
 script = ExtResource("1_e1bef")
 
 [node name="maps" type="Node" parent="."]
 editor_description = "There should only be one map at a time for the client, wheras the server has to deal with all of them."
-script = ExtResource("2_33f5q")
