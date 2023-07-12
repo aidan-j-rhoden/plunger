@@ -22,6 +22,7 @@ var enet_peer = ENetMultiplayerPeer.new()
 
 var waiting_list = []
 var ready_list = []
+var old_room_list = {} ## Client only
 
 @onready var room_lists = $ChoiceMenu/MarginContainer/VBoxContainer/room_lists
 @onready var example_room = $ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room
@@ -45,7 +46,7 @@ func _ready():
 
 
 func _process(_delta):
-	if not multiplayer.is_server():
+	if not multiplayer.is_server() and old_room_list != Globals.rooms:  ## If we update this every delta, it's impossible to click the button
 		for child in room_lists.get_children():
 			if child.name != "example_room":
 				child.queue_free()
@@ -55,7 +56,10 @@ func _process(_delta):
 			new_room_info.visible = true
 			new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
 			new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
+			new_room_info.get_node("Button").pressed.connect(_on_join_room_pressed)
 			room_lists.add_child(new_room_info)
+
+		old_room_list = Globals.rooms
 
 
 func _on_host_pressed(): # Start up the server
@@ -93,8 +97,10 @@ func _on_connect_pressed(): # When you press the connect button.
 	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that client
 
 	choice_menu.show()
-#	choice_menu.get_node("MarginContainer/VBoxContainer/Start").disabled = true
-#	choice_menu.get_node("MarginContainer/VBoxContainer/players").text = get_text_players(player_list)
+
+
+func _on_join_room_pressed(which_room):
+	print("You pressed join")
 
 
 func _on_create_room_pressed(): ## When the player presses the creat room button

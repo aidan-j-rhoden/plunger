@@ -124,7 +124,6 @@ script = ExtResource("2_77crj")
 layout_mode = 2
 
 [node name="example_room" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists"]
-visible = false
 layout_mode = 2
 
 [node name="level" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
