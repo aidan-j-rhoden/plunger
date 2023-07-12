@@ -45,15 +45,17 @@ func _ready():
 
 
 func _process(_delta):
-	for child in room_lists.get_children():
-		if child.name != "example_room":
-			child.queue_free()
+	if not multiplayer.is_server():
+		for child in room_lists.get_children():
+			if child.name != "example_room":
+				child.queue_free()
 
-	for key in Globals.rooms.keys():
-		var new_room_info = example_room.duplicate()
-		new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
-		new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
-		room_lists.add_child(new_room_info)
+		for key in Globals.rooms.keys():
+			var new_room_info = example_room.duplicate()
+			new_room_info.visible = true
+			new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
+			new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
+			room_lists.add_child(new_room_info)
 
 
 func _on_host_pressed(): # Start up the server
@@ -80,18 +82,6 @@ func _on_host_pressed(): # Start up the server
 	multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
 	multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
 
-#	Globals.which_level = int($MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/level_select.value)
-
-#	if not dedicated_server(): # If this is a dedicated server, then don't create a playr for it.
-#		if username.text == "": # That's what you get for not filling out the required fields!
-#			var new_name = silly_names[randi() % silly_names.size()]
-#			Globals.player_names[multiplayer.get_unique_id()] = new_name # Record in the globals my peer id and my username
-#		else:
-#			Globals.player_names[multiplayer.get_unique_id()] = username.text # Record in the globals my peer id and my username
-#		add_player(multiplayer.get_unique_id()) # Call add player for the server
-
-#	choice_menu.show() # Show the standby and waiting menu.
-
 
 func _on_connect_pressed(): # When you press the connect button.
 	main_menu.hide() # Again, hide main menu.  We no longer need to see it.
@@ -108,6 +98,7 @@ func _on_connect_pressed(): # When you press the connect button.
 
 
 func _on_create_room_pressed(): ## When the player presses the creat room button
+	print("    I told server to make this room!")
 	rpc_id(1, "create_level", $ChoiceMenu/MarginContainer/VBoxContainer/rooms/level_select.selected)
 
 
