@@ -11,7 +11,7 @@ func spawn_level(which: String): # We may need different functions for this, but
 			var level = load(Globals.levels[which]).instantiate()
 			get_node("maps").add_child(level)
 		else:
-			OS.alert("You tried to load a spawn that didn't exsist!")
+			OS.alert("You tried to load a map that didn't exsist!")
 			get_tree().quit(1)
 
 
@@ -21,7 +21,7 @@ func load_level(which: String):
 			var level = load(Globals.levels[which]).instantiate()
 			get_node("maps").add_child(level)
 		else:
-			OS.alert("You tried to load a spawn that didn't exsist!")
+			OS.alert("You tried to load a map that didn't exsist!")
 			get_tree().quit(1)
 
 
@@ -30,6 +30,8 @@ func add_player(id):
 		var player = player_scene.instantiate()
 		player.name = str(id)
 		get_node("maps").get_child(0).get_node("players").add_child(player)
+		randomize()
+		player.global_transform.origin = get_node("maps").get_child(0).get_node("spawn_points").get_children()[randi() % get_node("maps").get_child(0).get_node("spawn_points").get_children().size()].global_transform.origin
 
 
 #func remove_player(peer_id):

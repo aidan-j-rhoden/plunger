@@ -98,19 +98,35 @@ func _on_connect_pressed(): # When you press the connect button.
 	choice_menu.show()
 
 
-func _on_join_room_pressed(which_room):
-	print("You pressed join room " + str(which_room))
-
-
 func _on_create_room_pressed(): ## When the player presses the creat room button
-	print("    I told server to make this room!")
-	rpc_id(1, "create_level", $ChoiceMenu/MarginContainer/VBoxContainer/rooms/level_select.selected)
+	var which_level = str($ChoiceMenu/MarginContainer/VBoxContainer/rooms/level_select.get_selected_id())
+
+	print("    I told server to make a room with level " + str(which_level))
+	rpc_id(1, "create_level", which_level)
 
 
 @rpc("reliable", "any_peer")
-func create_level(which):
+func create_level(which): ## This is called by the clients on the server.  The server will then attempt to create a room with the information given.
+	var sender = multiplayer.get_remote_sender_id()
 	Globals.rooms[which] = {"players": [], "level": which}
 	$World.spawn_level(str(which))
+	join_this_room.rpc_id(sender, which)
+
+
+@rpc("reliable")
+func join_this_room(which):
+	main_menu.hide()
+	choice_menu.hide()
+	$Background.queue_free()
+	$World.load_level(which)
+	client_ready.rpc_id(1)
+
+
+@rpc("reliable", "any_peer")
+func client_ready():
+	if multiplayer.is_server():
+		var sender = multiplayer.get_remote_sender_id()
+		$World.add_player(sender)
 
 
 @rpc("reliable") # The '@rpc' allows this function to be called remotly.
