@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://g7jnq4sqs63k"]
+[gd_scene load_steps=5 format=3 uid="uid://g7jnq4sqs63k"]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
 [ext_resource type="Script" path="res://menu/create.gd" id="2_77crj"]
 [ext_resource type="PackedScene" uid="uid://dm7gtcyppp7f" path="res://world.tscn" id="2_xu3ik"]
+[ext_resource type="Script" path="res://menu/join_button.gd" id="3_5u84s"]
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -140,9 +141,11 @@ horizontal_alignment = 1
 [node name="Button" type="Button" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
 layout_mode = 2
 text = "Join room"
+script = ExtResource("3_5u84s")
 
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="ChoiceMenu/MarginContainer/VBoxContainer/rooms/create" to="." method="_on_create_room_pressed"]
+[connection signal="pressed" from="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/Button" to="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/Button" method="_on_pressed"]

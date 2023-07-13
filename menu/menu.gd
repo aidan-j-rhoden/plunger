@@ -52,17 +52,18 @@ func _process(_delta):
 				child.queue_free()
 
 		for key in Globals.rooms.keys():
-			var new_room_info = example_room.duplicate()
+			var new_room_info = example_room.duplicate(5)
 			new_room_info.visible = true
 			new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
 			new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
-			new_room_info.get_node("Button").pressed.connect(_on_join_room_pressed)
 			room_lists.add_child(new_room_info)
 
 		old_room_list = Globals.rooms
 
 
 func _on_host_pressed(): # Start up the server.  This function is automatically called, except for when we are using a debug build.
+	main_menu.hide() # A nice visual way of verifying that the server started
+
 	if make_upnp: # This is a weird way to add port forwarding.  Not all routers support it.
 		upnp = UPNP.new()
 		var discover_result = upnp.discover()
