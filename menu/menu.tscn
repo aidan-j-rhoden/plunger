@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://g7jnq4sqs63k"]
+[gd_scene load_steps=6 format=3 uid="uid://g7jnq4sqs63k"]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
 [ext_resource type="Script" path="res://menu/create.gd" id="2_77crj"]
 [ext_resource type="PackedScene" uid="uid://dm7gtcyppp7f" path="res://world.tscn" id="2_xu3ik"]
 [ext_resource type="Script" path="res://menu/join_button.gd" id="3_5u84s"]
+[ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="5_7tp0p"]
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -15,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_gwxu1")
 
 [node name="MainMenu" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,7 +73,6 @@ alignment = 1
 expand_to_text_length = true
 
 [node name="ChoiceMenu" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,14 +107,15 @@ text = "Which level to play? "
 layout_mode = 2
 alignment = 1
 item_count = 4
-popup/item_0/text = "Level One"
-popup/item_0/id = 1
-popup/item_1/text = "Level Two"
-popup/item_1/id = 2
-popup/item_2/text = "Level Three"
-popup/item_2/id = 3
-popup/item_3/text = "Level Four"
-popup/item_3/id = 4
+popup/item_0/text = "Level Zero"
+popup/item_0/id = 0
+popup/item_1/text = "Level One"
+popup/item_1/id = 1
+popup/item_2/text = "Level Two"
+popup/item_2/id = 2
+popup/item_3/text = "Level Three"
+popup/item_3/id = 3
+popup/item_3/disabled = true
 
 [node name="create" type="Button" parent="ChoiceMenu/MarginContainer/VBoxContainer/rooms"]
 layout_mode = 2
@@ -125,7 +127,6 @@ script = ExtResource("2_77crj")
 layout_mode = 2
 
 [node name="example_room" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists"]
-visible = false
 layout_mode = 2
 
 [node name="level" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
@@ -144,6 +145,13 @@ text = "Join room"
 script = ExtResource("3_5u84s")
 
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
+
+[node name="Background" type="Node3D" parent="."]
+
+[node name="map_test" parent="Background" instance=ExtResource("5_7tp0p")]
+
+[node name="Camera3D" type="Camera3D" parent="Background"]
+transform = Transform3D(1, 0, 0, 0, 0.728275, 0.685285, 0, -0.685285, 0.728275, 0, 17.7746, 31.663)
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/connect" to="." method="_on_connect_pressed"]
