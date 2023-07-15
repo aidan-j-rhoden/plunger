@@ -148,6 +148,7 @@ script = ExtResource("3_5u84s")
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
 [node name="Background" type="Node3D" parent="."]
+visible = false
 
 [node name="map_test" parent="Background" instance=ExtResource("5_7tp0p")]
 
