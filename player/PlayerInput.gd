@@ -36,8 +36,8 @@ func fire():
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		y_rot += float(-event.relative.x) * CAMERA_ROT_SPEED
-		x_rot += float(-event.relative.y) * CAMERA_ROT_SPEED
+		y_rot = float(-event.relative.x) * CAMERA_ROT_SPEED
+		x_rot = float(-event.relative.y) * CAMERA_ROT_SPEED
 
 
 func _process(_delta):

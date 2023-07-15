@@ -148,12 +148,13 @@ script = ExtResource("3_5u84s")
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
 [node name="Background" type="Node3D" parent="."]
-visible = false
 
 [node name="map_test" parent="Background" instance=ExtResource("5_7tp0p")]
 
 [node name="Camera3D" type="Camera3D" parent="Background"]
-transform = Transform3D(1, 0, 0, 0, 0.728275, 0.685285, 0, -0.685285, 0.728275, 0, 17.7746, 31.663)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 32.2476, 0)
+projection = 1
+size = 60.1596
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/connect" to="." method="_on_connect_pressed"]

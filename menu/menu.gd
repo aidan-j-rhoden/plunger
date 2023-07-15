@@ -107,10 +107,11 @@ func _on_create_room_pressed(): ## When the player presses the creat room button
 
 @rpc("reliable", "any_peer")
 func create_level(which): ## This is called by the clients on the server.  The server will then attempt to create a room with the information given.
-	var sender = multiplayer.get_remote_sender_id()
-	Globals.rooms[which] = {"players": [], "level": which}
-	$World.spawn_level(str(which))
-	join_this_room.rpc_id(sender, which)
+	if multiplayer.is_server():
+		var sender = multiplayer.get_remote_sender_id()
+		Globals.rooms[which] = {"players": [Globals.player_names[sender]], "level": which}
+		$World.spawn_level(str(which))
+		join_this_room.rpc_id(sender, which)
 
 
 @rpc("reliable")

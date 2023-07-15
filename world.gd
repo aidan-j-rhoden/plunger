@@ -25,6 +25,7 @@ func load_level(which: String):
 			get_tree().quit(1)
 
 
+@rpc("reliable", "any_peer")
 func add_player(id):
 	if multiplayer.is_server():
 		var player = player_scene.instantiate()

@@ -184,15 +184,18 @@ mesh = SubResource("ArrayMesh_bhyv6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plane/StaticBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_veg37")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." index="7"]
-_spawnable_scenes = PackedStringArray("res://weapons/plunger/plunger.tscn", "res://weapons/hairspray/hairspray.tscn")
-spawn_path = NodePath("../weapons")
+[node name="environment" type="Node3D" parent="." index="7"]
+editor_description = "Any lights, reflection probes, and world enviroments go here"
 
-[node name="weapons" type="Node3D" parent="." index="8"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="9"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="environment" index="0"]
 environment = ExtResource("6_d3j5l")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="10"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="environment" index="1"]
 transform = Transform3D(1, 0, 0, 0, 0.356542, 0.934279, 0, -0.934279, 0.356542, 0, 0, 0)
 shadow_enabled = true
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." index="8"]
+_spawnable_scenes = PackedStringArray("res://player/player.tscn")
+spawn_path = NodePath("../players")
+
+[node name="players" type="Node3D" parent="." index="9"]
