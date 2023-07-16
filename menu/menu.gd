@@ -54,6 +54,7 @@ func _process(_delta):
 		for key in Globals.rooms.keys():
 			var new_room_info = example_room.duplicate(5)
 			new_room_info.visible = true
+			new_room_info.name = Globals.rooms[key]["level"]
 			new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
 			new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
 			room_lists.add_child(new_room_info)
@@ -111,23 +112,29 @@ func create_level(which): ## This is called by the clients on the server.  The s
 		var sender = multiplayer.get_remote_sender_id()
 		Globals.rooms[which] = {"players": [Globals.player_names[sender]], "level": which}
 		$World.spawn_level(str(which))
-		join_this_room.rpc_id(sender, which)
+		join_room.rpc_id(sender, which)
+
+
+@rpc("reliable", "any_peer")
+func client_join_request(room):
+	var id = multiplayer.get_remote_sender_id()
+	rpc_id(id, "join_room", room) # TODO: add in some verification here
 
 
 @rpc("reliable")
-func join_this_room(which):
+func join_room(which):
 	main_menu.hide()
 	choice_menu.hide()
 	$Background.queue_free()
 	$World.load_level(which)
-	client_ready.rpc_id(1)
+	client_ready.rpc_id(1, which)
 
 
 @rpc("reliable", "any_peer")
-func client_ready():
+func client_ready(which):
 	if multiplayer.is_server():
 		var sender = multiplayer.get_remote_sender_id()
-		$World.add_player(sender)
+		$World.add_player(sender, which)
 
 
 @rpc("reliable") # The '@rpc' allows this function to be called remotly.
