@@ -13,7 +13,7 @@ config_version=5
 config/name="plunger"
 config/tags=PackedStringArray("personal")
 run/main_scene="res://menu/menu.tscn"
-config/features=PackedStringArray("4.1", "Forward Plus")
+config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://plunger.png"
 
 [autoload]
