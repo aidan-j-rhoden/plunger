@@ -5,5 +5,5 @@
 [node name="World" type="Node"]
 script = ExtResource("1_e1bef")
 
-[node name="maps" type="Node" parent="."]
+[node name="maps" type="Node3D" parent="."]
 editor_description = "There should only be one map at a time for the client, wheras the server has to deal with all of them."

@@ -45,7 +45,7 @@ func _ready():
 		call_deferred(_on_host_pressed())
 
 
-func _process(_delta):
+func _process(_delta): # Update the room list
 	if not multiplayer.is_server() and old_room_list != Globals.rooms:  ## If we update this every delta, it's impossible to click the button
 		for child in room_lists.get_children():
 			if child.name != "example_room":
@@ -109,10 +109,10 @@ func _on_create_room_pressed(): ## When the player presses the creat room button
 @rpc("reliable", "any_peer")
 func create_level(which): ## This is called by the clients on the server.  The server will then attempt to create a room with the information given.
 	if multiplayer.is_server():
-		var sender = multiplayer.get_remote_sender_id()
-		Globals.rooms[which] = {"players": [Globals.player_names[sender]], "level": which}
-		$World.spawn_level(str(which))
-		join_room.rpc_id(sender, which)
+		#Globals.rooms[which] = {"players": [Globals.player_names[sender]], "level": which}
+		$World.spawn_level(which)
+		#$World.spawn_level(str(which))
+		join_room.rpc_id(multiplayer.get_remote_sender_id(), which)
 
 
 @rpc("reliable", "any_peer")

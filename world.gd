@@ -5,20 +5,23 @@ const player_scene = preload("res://player/player.tscn")
 #func _ready():
 #	multiplayer.peer_disconnected.connect(remove_player)
 
-func spawn_level(which: String): # We may need different functions for this, but we'll see.
+func spawn_level(which): # We may need different functions for this, but we'll see.
 	if multiplayer.is_server():
 		if which in Globals.levels:
-			var level = load(Globals.levels[which]).instantiate()
+			print(Globals.levels)
+			var level = load(Globals.levels[str(which)]).instantiate()
 			get_node("maps").add_child(level)
+			Globals.rooms[str(which)] = {"players": [], "level": str(which), "node_name": level.name}
 		else:
 			OS.alert("You tried to load a map that didn't exsist!")
 			get_tree().quit(1)
 
 
-func load_level(which: String):
+func load_level(which):
+	await get_tree().create_timer(0.5).timeout
 	if which in Globals.levels:
-		var level = load(Globals.levels[which]).instantiate()
-		level.name = which
+		var level = load(Globals.levels[str(which)]).instantiate()
+		level.name = Globals.rooms[str(which)]["node_name"]
 		get_node("maps").add_child(level)
 	else:
 		OS.alert("You tried to load a map that didn't exsist!")
@@ -31,7 +34,10 @@ func add_player(id, level):
 		print("    added " + str(id))
 		var player = player_scene.instantiate()
 		player.name = str(id)
-		get_node("maps").find_child(level).get_node("players").add_child(player)
+		print(Globals.rooms[level]["node_name"])
+		var map = $maps.find_child(Globals.rooms[level]["node_name"], false)
+		print(map)
+		map.get_node("players").add_child(player)
 		randomize()
 		player.global_transform.origin = get_node("maps").get_child(0).get_node("spawn_points").get_children()[randi() % get_node("maps").get_child(0).get_node("spawn_points").get_children().size()].global_transform.origin
 
