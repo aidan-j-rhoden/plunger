@@ -35,8 +35,9 @@ func add_player(id, level):
 		var player = player_scene.instantiate()
 		player.name = str(id)
 		print(Globals.rooms[level]["node_name"])
+
+		# TODO: something is wrong with this:   vvvvvvvvvvvvvvvvvvvv
 		var map = $maps.find_child(Globals.rooms[level]["node_name"], false)
-		print(map)
 		map.get_node("players").add_child(player)
 		randomize()
 		player.global_transform.origin = get_node("maps").get_child(0).get_node("spawn_points").get_children()[randi() % get_node("maps").get_child(0).get_node("spawn_points").get_children().size()].global_transform.origin
