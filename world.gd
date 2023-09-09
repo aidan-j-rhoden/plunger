@@ -5,12 +5,13 @@ const player_scene = preload("res://player/player.tscn")
 #func _ready():
 #	multiplayer.peer_disconnected.connect(remove_player)
 
-func spawn_level(which): # We may need different functions for this, but we'll see.
+func spawn_level(which):
 	if multiplayer.is_server():
 		if which in Globals.levels:
 			print(Globals.levels)
 			var level = load(Globals.levels[str(which)]).instantiate()
 			get_node("maps").add_child(level)
+			level.set_owner(get_node("maps"))
 			Globals.rooms[str(which)] = {"players": [], "level": str(which), "node_name": level.name}
 		else:
 			OS.alert("You tried to load a map that didn't exsist!")
@@ -34,14 +35,14 @@ func add_player(id, level):
 		print("    added " + str(id))
 		var player = player_scene.instantiate()
 		player.name = str(id)
+		print("THIS ONE:")
 		print(Globals.rooms[level]["node_name"])
-
 		# TODO: something is wrong with this:   vvvvvvvvvvvvvvvvvvvv
 		var map = $maps.find_child(Globals.rooms[level]["node_name"], false)
 		map.get_node("players").add_child(player)
 		randomize()
 		player.global_transform.origin = get_node("maps").get_child(0).get_node("spawn_points").get_children()[randi() % get_node("maps").get_child(0).get_node("spawn_points").get_children().size()].global_transform.origin
-
+#World/maps/map_test
 
 #func remove_player(peer_id):
 #	get_node("players/" + str(peer_id)).queue_free()

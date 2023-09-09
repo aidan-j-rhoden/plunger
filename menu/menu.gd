@@ -100,10 +100,11 @@ func _on_connect_pressed(): # When you press the connect button.
 
 
 func _on_create_room_pressed(): ## When the player presses the creat room button
-	var which_level = str($ChoiceMenu/MarginContainer/VBoxContainer/rooms/level_select.get_selected_id())
+	if not multiplayer.is_server():
+		var which_level = str($ChoiceMenu/MarginContainer/VBoxContainer/rooms/level_select.get_selected_id())
 
-	print("    I told server to make a room with level " + str(which_level))
-	rpc_id(1, "create_level", which_level)
+		print("    I told server to make a room with level " + str(which_level))
+		rpc_id(1, "create_level", which_level)
 
 
 @rpc("reliable", "any_peer")

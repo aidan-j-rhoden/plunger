@@ -10,7 +10,7 @@ extends Node
 ## This array stores all the rooms currently being played
 ## An example would look like this:
 ##{
-##	"room1": {"players": ["Joe", "Jane", "uncle Bob"], "level": "Station"},
-##	"room2": {"players": ["same", "darn", "old", "name"], "level": "Death Hole"}
+##	"room1": {"players": ["Joe", "Jane", "uncle Bob"], "level": "Station", "node_name": "level@yaada"},
+##	"room2": {"players": ["same", "darn", "old", "name"], "level": "Death Hole", "node_name": "level021@yalalje"}
 ##}
 @export var rooms = {}
