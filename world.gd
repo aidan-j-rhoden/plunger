@@ -14,7 +14,7 @@ func spawn_level(which):
 			level.set_owner(get_node("maps"))
 			Globals.rooms[str(which)] = {"players": [], "level": str(which), "node_name": level.name}
 		else:
-			OS.alert("You tried to load a map that didn't exsist!")
+			OS.alert("A player tried to load a map that didn't exsist!")
 			get_tree().quit(1)
 
 
