@@ -6,6 +6,8 @@ extends Control
 @onready var choice_menu = $ChoiceMenu
 @onready var username = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/username
 
+@onready var room = load("res://menu/room.tscn")
+
 var silly_names = [ # A random name is chosen if you fail to give one. ;)
 		"an anonymous jerk", "Sara Cobbler", "Silly Man Sam",
 		"ima doofus", "Dan Thee Man", "Billy Bob Joe",
@@ -18,7 +20,6 @@ var silly_names = [ # A random name is chosen if you fail to give one. ;)
 const PORT = 9999
 var upnp
 var make_upnp = false
-var enet_peer = ENetMultiplayerPeer.new()
 
 var waiting_list = []
 var ready_list = []
@@ -42,7 +43,7 @@ func _ready():
 	choice_menu.hide()
 
 	if dedicated_server(): # If this is a dedicated server build, we want it to host a game automatically
-		call_deferred(_on_host_pressed())
+		_on_host_pressed().call_deferred()
 
 
 func _process(_delta): # Update the room list
@@ -52,17 +53,18 @@ func _process(_delta): # Update the room list
 				child.queue_free()
 
 		for key in Globals.rooms.keys():
-			var new_room_info = example_room.duplicate(5)
-			new_room_info.visible = true
-			new_room_info.name = Globals.rooms[key]["level"]
-			new_room_info.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
-			new_room_info.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
-			room_lists.add_child(new_room_info)
+			var new_room = room.instantiate()
+			#new_room.visible = true
+			new_room.name = Globals.rooms[key]["level"]
+			new_room.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
+			new_room.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
+			room_lists.add_child(new_room)
 
 		old_room_list = Globals.rooms
 
 
 func _on_host_pressed(): # Start up the server.  This function is automatically called, except for when we are using a debug build.
+	var enet_peer = ENetMultiplayerPeer.new()
 	main_menu.hide() # A nice visual way of verifying that the server started
 
 	if make_upnp: # This is a weird way to add port forwarding.  Not all routers support it.
@@ -88,6 +90,7 @@ func _on_host_pressed(): # Start up the server.  This function is automatically 
 
 
 func _on_connect_pressed(): # When you press the connect button.
+	var enet_peer = ENetMultiplayerPeer.new()
 	main_menu.hide() # Again, hide main menu.  We no longer need to see it.
 
 	if address.text == "": # For the sake of speedy debugging, an empty IP will be interpeted as localhost.
@@ -117,9 +120,9 @@ func create_level(which): ## This is called by the clients on the server.  The s
 
 
 @rpc("reliable", "any_peer")
-func client_join_request(room):
+func client_join_request(which_room):
 	var id = multiplayer.get_remote_sender_id()
-	rpc_id(id, "join_room", room) # TODO: add in some verification here
+	rpc_id(id, "join_room", which_room) # TODO: add in some verification here
 
 
 @rpc("reliable")

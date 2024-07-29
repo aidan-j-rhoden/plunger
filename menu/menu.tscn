@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_gwxu1"]
 [ext_resource type="Script" path="res://menu/create.gd" id="2_77crj"]
 [ext_resource type="PackedScene" uid="uid://dm7gtcyppp7f" path="res://world.tscn" id="2_xu3ik"]
-[ext_resource type="Script" path="res://menu/join_button.gd" id="3_5u84s"]
+[ext_resource type="PackedScene" uid="uid://cjs3sl3gpx7j7" path="res://menu/room.tscn" id="3_watbx"]
 [ext_resource type="PackedScene" uid="uid://dotxdbaybd76t" path="res://maps/map_test.tscn" id="5_7tp0p"]
 
 [node name="menu" type="Control"]
@@ -16,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_gwxu1")
 
 [node name="MainMenu" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,7 +73,6 @@ alignment = 1
 expand_to_text_length = true
 
 [node name="ChoiceMenu" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -108,7 +108,6 @@ layout_mode = 2
 alignment = 1
 item_count = 4
 popup/item_0/text = "Level Zero"
-popup/item_0/id = 0
 popup/item_1/text = "Level One"
 popup/item_1/id = 1
 popup/item_2/text = "Level Two"
@@ -126,24 +125,8 @@ script = ExtResource("2_77crj")
 [node name="room_lists" type="VBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="example_room" type="HBoxContainer" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists"]
-visible = false
+[node name="example_room" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists" instance=ExtResource("3_watbx")]
 layout_mode = 2
-
-[node name="level" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
-layout_mode = 2
-text = "What level: The level with the really long name (IDK why)"
-horizontal_alignment = 1
-
-[node name="players" type="Label" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
-layout_mode = 2
-text = "Players playing: 1.7"
-horizontal_alignment = 1
-
-[node name="Button" type="Button" parent="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room"]
-layout_mode = 2
-text = "Join room"
-script = ExtResource("3_5u84s")
 
 [node name="World" parent="." instance=ExtResource("2_xu3ik")]
 
@@ -159,4 +142,3 @@ size = 60.1596
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HBoxContainer/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="ChoiceMenu/MarginContainer/VBoxContainer/rooms/create" to="." method="_on_create_room_pressed"]
-[connection signal="pressed" from="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/Button" to="ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room/Button" method="_on_pressed"]
