@@ -17,7 +17,7 @@ var silly_names = [ # A random name is chosen if you fail to give one. ;)
 ]
 
 # Network stuff
-const PORT = 9999
+var port = 20000
 var upnp
 var make_upnp = false
 
@@ -32,8 +32,8 @@ func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 		if make_upnp: # Make sure to clean up the port mappings for security
-			assert(upnp.delete_port_mapping(PORT, "UDP") == 0, "She left without saying goodbye. :(")
-			assert(upnp.delete_port_mapping(PORT, "TCP") == 0, "It was already gone.")
+			assert(upnp.delete_port_mapping(port, "UDP") == 0, "She left without saying goodbye. :(")
+			assert(upnp.delete_port_mapping(port, "TCP") == 0, "It was already gone.")
 
 
 func _ready():
@@ -65,6 +65,7 @@ func _process(_delta): # Update the room list
 
 func _on_host_pressed(): # Start up the server.  This function is automatically called, except for when we are using a debug build.
 	var enet_peer = ENetMultiplayerPeer.new()
+	#MultiplayerAPI.multiplayer_peer = enet_peer
 	main_menu.hide() # A nice visual way of verifying that the server started
 
 	if make_upnp: # This is a weird way to add port forwarding.  Not all routers support it.
@@ -73,31 +74,36 @@ func _on_host_pressed(): # Start up the server.  This function is automatically 
 
 		if discover_result == UPNP.UPNP_RESULT_SUCCESS:
 			if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
-				var map_result_udp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP", 0)
-				var map_result_tcp = upnp.add_port_mapping(PORT, PORT, "godot_tcp", "TCP", 0)
+				var map_result_udp = upnp.add_port_mapping(port, port, "godot_udp", "UDP", 0)
+				var map_result_tcp = upnp.add_port_mapping(port, port, "godot_tcp", "TCP", 0)
 				if not map_result_udp == UPNP.UPNP_RESULT_SUCCESS:
-					upnp.add_port_mapping(PORT, PORT, "", "UDP")
+					upnp.add_port_mapping(port, port, "", "UDP")
 				if not map_result_tcp == UPNP.UPNP_RESULT_SUCCESS:
-					upnp.add_port_mapping(PORT, PORT, "", "TCP")
+					upnp.add_port_mapping(port, port, "", "TCP")
 
 		var external_ip = upnp.query_external_address()
-		print(str(external_ip) + ":" + str(PORT))
+		print(str(external_ip) + ":" + str(port))
 
-	enet_peer.create_server(PORT) # Create enet server
-	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that server
-	multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
-	multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
+		if enet_peer.create_server(port) == ERR_CANT_CREATE: # Create enet server
+			OS.alert("Could not create server!")
+			get_tree().quit()
+		print("Server created on port " + str(port))
+		multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that server
+		multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
+		multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
 
 
 func _on_connect_pressed(): # When you press the connect button.
 	var enet_peer = ENetMultiplayerPeer.new()
+	#MultiplayerAPI.multiplayer_peer = enet_peer
 	main_menu.hide() # Again, hide main menu.  We no longer need to see it.
 
 	if address.text == "": # For the sake of speedy debugging, an empty IP will be interpeted as localhost.
-		enet_peer.create_client("localhost", PORT) # Create the enet client
+		enet_peer.create_client("localhost", port) # Create the enet client
 	else:
-		enet_peer.create_client(address.text, PORT)
+		enet_peer.create_client(address.text, port)
 	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that client
+	multiplayer.server_disconnected.connect(server_disconnected)
 
 	choice_menu.show()
 
@@ -167,6 +173,10 @@ func add_player(peer_id): # Server only
 func remove_player(peer_id): # Server only
 	print("Player " + str(peer_id) + " left!")
 	waiting_list.erase(peer_id)
+
+
+func server_disconnected():
+	get_tree().quit()
 
 
 func dedicated_server(): # A simple helper function to see if this project build is a dedicated server.
