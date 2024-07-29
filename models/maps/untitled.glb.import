@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://djugtfexekb7y"
-path="res://.godot/imported/bathtub.glb-b3fc38a8c58f109e66da0d54ce496cca.scn"
+uid="uid://d2fbj8ateg0ru"
+path="res://.godot/imported/untitled.glb-ad06f90bfc8e5028d3cd62501a1f088c.scn"
 
 [deps]
 
-source_file="res://models/props/bathtub.glb"
-dest_files=["res://.godot/imported/bathtub.glb-b3fc38a8c58f109e66da0d54ce496cca.scn"]
+source_file="res://models/maps/untitled.glb"
+dest_files=["res://.godot/imported/untitled.glb-ad06f90bfc8e5028d3cd62501a1f088c.scn"]
 
 [params]
 

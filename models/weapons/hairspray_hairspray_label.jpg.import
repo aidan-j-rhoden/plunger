@@ -2,18 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2qni8dahrc1c"
-path.s3tc="res://.godot/imported/hairspray_hairspray_label.png-e0c259b2c78e246f02a792986f523b7c.s3tc.ctex"
+uid="uid://bwjndkffdrnuh"
+path.s3tc="res://.godot/imported/hairspray_hairspray_label.jpg-7b18d34a187aaff4497dc0d7fa51061f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={}
+generator_parameters={
+"md5": "5aa718dd5e3de93e330c0ff47850125c"
+}
 
 [deps]
 
-source_file="res://models/weapons/hairspray_hairspray_label.png"
-dest_files=["res://.godot/imported/hairspray_hairspray_label.png-e0c259b2c78e246f02a792986f523b7c.s3tc.ctex"]
+source_file="res://models/weapons/hairspray_hairspray_label.jpg"
+dest_files=["res://.godot/imported/hairspray_hairspray_label.jpg-7b18d34a187aaff4497dc0d7fa51061f.s3tc.ctex"]
 
 [params]
 
