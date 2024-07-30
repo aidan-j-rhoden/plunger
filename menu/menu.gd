@@ -17,7 +17,8 @@ var silly_names = [ # A random name is chosen if you fail to give one. ;)
 ]
 
 # Network stuff
-var port = 20000
+var enet_peer = OfflineMultiplayerPeer.new()
+var port = 1025
 var upnp
 var make_upnp = false
 
@@ -64,7 +65,7 @@ func _process(_delta): # Update the room list
 
 
 func _on_host_pressed(): # Start up the server.  This function is automatically called, except for when we are using a debug build.
-	var enet_peer = ENetMultiplayerPeer.new()
+	enet_peer = ENetMultiplayerPeer.new()
 	#MultiplayerAPI.multiplayer_peer = enet_peer
 	main_menu.hide() # A nice visual way of verifying that the server started
 
@@ -84,24 +85,29 @@ func _on_host_pressed(): # Start up the server.  This function is automatically 
 		var external_ip = upnp.query_external_address()
 		print(str(external_ip) + ":" + str(port))
 
-		if enet_peer.create_server(port) == ERR_CANT_CREATE: # Create enet server
-			OS.alert("Could not create server!")
-			get_tree().quit()
-		print("Server created on port " + str(port))
-		multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that server
-		multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
-		multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
+	if enet_peer.create_server(port) == ERR_CANT_CREATE: # Create enet server
+		OS.alert("Could not create server!")
+		get_tree().quit()
+	print("Server created on port " + str(port))
+	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that server
+	multiplayer.peer_connected.connect(add_player) # When a peer connects, automatically call add_player()
+	multiplayer.peer_disconnected.connect(remove_player) # When a peer disconnects, automatically call remove_player()
 
 
 func _on_connect_pressed(): # When you press the connect button.
-	var enet_peer = ENetMultiplayerPeer.new()
-	#MultiplayerAPI.multiplayer_peer = enet_peer
 	main_menu.hide() # Again, hide main menu.  We no longer need to see it.
+
+	enet_peer = ENetMultiplayerPeer.new()
 
 	if address.text == "": # For the sake of speedy debugging, an empty IP will be interpeted as localhost.
 		enet_peer.create_client("localhost", port) # Create the enet client
 	else:
 		enet_peer.create_client(address.text, port)
+
+	if enet_peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
+		OS.alert("Failed to start multiplayer client.")
+		return
+
 	multiplayer.multiplayer_peer = enet_peer # Set our multiplayer peer to that client
 	multiplayer.server_disconnected.connect(server_disconnected)
 
