@@ -2,17 +2,23 @@
 
 [ext_resource type="Script" path="res://menu/join_button.gd" id="1_gchwc"]
 
-[node name="example_room" type="HBoxContainer"]
-visible = false
+[node name="room" type="HBoxContainer"]
+offset_right = 851.0
+offset_bottom = 31.0
 
 [node name="level" type="Label" parent="."]
 layout_mode = 2
 text = "What level: The level with the really long name (IDK why)"
 horizontal_alignment = 1
 
-[node name="players" type="Label" parent="."]
+[node name="players_label" type="Label" parent="."]
 layout_mode = 2
-text = "Players playing: 1.7"
+text = "Players playing: "
+horizontal_alignment = 1
+
+[node name="players_count" type="Label" parent="."]
+layout_mode = 2
+text = "1.7"
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="."]

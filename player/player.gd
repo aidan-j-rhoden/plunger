@@ -34,7 +34,7 @@ func _enter_tree(): # Set the authority of the PlayerInput node to this node's n
 func _ready():
 	$PlayerInput.set_visibility_for(1, true)
 	$ServerSynchronizer.set_visibility_for(1, true)
-	$player_name.text = Globals.player_names[input.get_multiplayer_authority()] # Set the 3d text label
+	$player_name.text = "Potato"#Globals.player_names[input.get_multiplayer_authority()] # Set the 3d text label
 	set_physics_process(multiplayer.is_server()) # Only process on the server
 
 	if str(name).to_int() == multiplayer.get_unique_id(): # If this client is associated with this player, 

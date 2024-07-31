@@ -17,13 +17,15 @@ func spawn_level(which):
 			OS.alert("A player tried to load a map that didn't exsist!")
 			get_tree().quit(1)
 
-
+ 
 func load_level(which):
 	await get_tree().create_timer(0.5).timeout
 	if which in Globals.levels:
 		var level = load(Globals.levels[str(which)]).instantiate()
 		level.name = Globals.rooms[str(which)]["node_name"]
 		get_node("maps").add_child(level)
+		print("Player " + str(multiplayer.get_unique_id()) + "loaded level " + str(which))
+		get_parent().rpc_id(1, "client_ready", which)
 	else:
 		OS.alert("You tried to load a map that didn't exsist!")
 		get_tree().quit(1)
@@ -32,10 +34,10 @@ func load_level(which):
 @rpc("reliable", "any_peer")
 func add_player(id, level):
 	if multiplayer.is_server():
-		print("    added " + str(id))
+		print("Added player " + str(id))
 		var player = player_scene.instantiate()
 		player.name = str(id)
-		print("THIS ONE:")
+		player.set_multiplayer_authority(id)
 		print(Globals.rooms[level]["node_name"])
 		# TODO: something is wrong with this:   vvvvvvvvvvvvvvvvvvvv
 		var map = $maps.find_child(Globals.rooms[level]["node_name"], false)

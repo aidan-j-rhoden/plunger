@@ -27,7 +27,6 @@ var ready_list = []
 var old_room_list = {} ## Client only
 
 @onready var room_lists = $ChoiceMenu/MarginContainer/VBoxContainer/room_lists
-@onready var example_room = $ChoiceMenu/MarginContainer/VBoxContainer/room_lists/example_room
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("quit"):
@@ -50,15 +49,14 @@ func _ready():
 func _process(_delta): # Update the room list
 	if not multiplayer.is_server() and old_room_list != Globals.rooms:  ## If we update this every delta, it's impossible to click the button
 		for child in room_lists.get_children():
-			if child.name != "example_room":
-				child.queue_free()
+			child.queue_free()
 
 		for key in Globals.rooms.keys():
 			var new_room = room.instantiate()
 			#new_room.visible = true
 			new_room.name = Globals.rooms[key]["level"]
-			new_room.get_node("level").text = "What level: " + str(Globals.rooms[key]["level"])
-			new_room.get_node("players").text = "Players playing: " + str(len(Globals.rooms[key]["players"]))
+			new_room.get_node("level").text = str(Globals.rooms[key]["level"])
+			new_room.get_node("players_count").text = str(len(Globals.rooms[key]["players"]))
 			room_lists.add_child(new_room)
 
 		old_room_list = Globals.rooms
