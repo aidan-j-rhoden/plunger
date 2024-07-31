@@ -1,20 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8iwm7o88ysrw"]
+[gd_scene load_steps=3 format=3 uid="uid://c8iwm7o88ysrw"]
 
 [ext_resource type="Script" path="res://globals.gd" id="1_6omvh"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_w1fub"]
 properties/0/path = NodePath("Globals:player_names")
 properties/0/spawn = true
-properties/0/replication_mode = 1
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vbmha"]
-properties/0/path = NodePath(".:rooms")
-properties/0/spawn = true
 properties/0/replication_mode = 2
+properties/1/path = NodePath("Globals:rooms")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [node name="Globals" type="MultiplayerSynchronizer"]
 replication_config = SubResource("SceneReplicationConfig_w1fub")
 script = ExtResource("1_6omvh")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_vbmha")
